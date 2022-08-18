@@ -19,6 +19,7 @@ web/.next/
 /out/
 
 # production
+web/.next
 .next
 /build
 api/build
