@@ -23,7 +23,7 @@ const getByIdModel = async (id: string) => {
                 phone
         FROM public.user 
         WHERE id = $1`, [id]);
-    return result.rows;
+    return result.rows[0];
 }
 
 const createModel = async (rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
@@ -34,8 +34,8 @@ const createModel = async (rut: string, name: string, paternalLastName: string, 
                             maternalLastName, 
                             email, 
                             phone) 
-    VALUES ($1, $2, $3, $4, $5, $6)`, [rut, name, paternalLastName, maternalLastName, email, phone]);
-    return result;
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`, [rut, name, paternalLastName, maternalLastName, email, phone]);
+    return result.rows[0];
 }
 
 const updateModel = async (id: string, rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
@@ -46,15 +46,15 @@ const updateModel = async (id: string, rut: string, name: string, paternalLastNa
                             maternalLastName =$5,
                             email = $6,
                             phone =$7 
-    WHERE id = $1`, [id, rut, name, paternalLastName, maternalLastName, email, phone]);
-    return result;
+    WHERE id = $1 RETURNING *`, [id, rut, name, paternalLastName, maternalLastName, email, phone]);
+    return result.rows[0];
 }
 
 const deleteModel = async (id: string) => {
     const result = await pool.query(`
     DELETE FROM public.user 
     WHERE id = $1`, [id]);
-    return result.rows;
+    return result;
 }
 
 export {getAllModel, getByIdModel, createModel, updateModel, deleteModel};
