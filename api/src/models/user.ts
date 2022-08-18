@@ -1,6 +1,6 @@
 import pool from "../utils/database";
 
-const getAll = async () => {
+const getAllModel = async () => {
     const result = await pool.query(`
         SELECT  id,
                 rut,
@@ -9,11 +9,11 @@ const getAll = async () => {
                 maternalLastName, 
                 email, 
                 phone
-        FROM users`);
+        FROM user.public`);
     return result.rows;
 }
 
-const getById = async (id: string) => {
+const getByIdModel = async (id: string) => {
     const result = await pool.query(`
         SELECT  rut,
                 name, 
@@ -21,27 +21,40 @@ const getById = async (id: string) => {
                 maternalLastName, 
                 email, 
                 phone
-        FROM users 
+        FROM user.public 
         WHERE id = $1`, [id]);
     return result.rows;
 }
 
-const create = async (rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
+const createModel = async (rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
     const result = await pool.query(`
-    INSERT INTO users (rut, name, paternalLastName, maternalLastName, email, phone) VALUES ($1, $2, $3, $4, $5, $6)`, [rut, name, paternalLastName, maternalLastName, email, phone]);
+    INSERT INTO user.public (rut, 
+                            name, 
+                            paternalLastName, 
+                            maternalLastName, 
+                            email, 
+                            phone) 
+    VALUES ($1, $2, $3, $4, $5, $6)`, [rut, name, paternalLastName, maternalLastName, email, phone]);
     return result;
 }
 
-const update = async (id: string, name: string) => {
-    const result = await pool.query(`
-    UPDATE users SET name = $2 WHERE id = $1`, [id, name]);
+const updateModel = async (id: string, rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
+    const result = await pool.query(` 
+    UPDATE user.public SET  rut = $2, 
+                            name = $3,
+                            paternalLastName = $4,
+                            maternalLastName =$5,
+                            email = $6,
+                            phone =$7 
+    WHERE id = $1`, [id, rut, name, paternalLastName, maternalLastName, email, phone]);
     return result;
 }
 
-const drop = async (id: string) => {
+const deleteModel = async (id: string) => {
     const result = await pool.query(`
-    DELETE FROM users WHERE id = $1`, [id]);
+    DELETE FROM user.public 
+    WHERE id = $1`, [id]);
     return result.rows;
 }
 
-export {getAll, getById, create, update, drop};
+export {getAllModel, getByIdModel, createModel, updateModel, deleteModel};

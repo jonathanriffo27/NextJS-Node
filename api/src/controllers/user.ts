@@ -1,13 +1,15 @@
-import {getAll, getById, create, update, drop} from "../models/user";
+import {
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel
+} from "../models/user";
 
 const getAllController = async (req: any, res: any) => {
-    const response = await getAll();
+    const response = await getAllModel();
     res.send(response);
 };
 
 const getByIdController = async (req: any, res: any) => {
     const {id} = req.params;
-    const response = await getById(id);
+    const response = await getByIdModel(id);
     res.send(response);
 };
 
@@ -18,20 +20,20 @@ const createController = async (req: any, res: any) => {
     const maternalLastName = req.body.maternalLastName
     const email = req.body.email
     const phone = req.body.phone
-    const response = await create(rut, name, paternalLastName, maternalLastName, email, phone);
+    const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone);
     res.send(response);
 };
 
 const updateController = async (req: any, res: any) => {
     const {id} = req.params;
-    const name = req.body.name
-    const response = await update(id, name);
+    const {rut, name, paternalLastName, maternalLastName, email, phone} = req.body;
+    const response = await updateModel(id, rut, name, paternalLastName, maternalLastName, email, phone);
     res.send(response);
 };
 
 const deleteController = async (req: any, res: any) => {
     const {id} = req.params;
-    const response = await drop(id);
+    const response = await deleteModel(id);
     res.send(response); 
 };
 

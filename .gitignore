@@ -25,6 +25,7 @@ api/build
 web/build
 
 # misc
+../.gitignore
 .gitignore
 .DS_Store
 *.pem
