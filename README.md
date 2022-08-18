@@ -2,7 +2,7 @@
 
 ## Iniciando
 
-Para iniciar el proyecto debes crear un tu raiz un archivo .env con la variable necesarias para la coneccion a la base de datos, de esta forma:
+Para iniciar el proyecto debes crear un tu raiz un archivo .env con la variable necesarias para la conexion a la base de datos, de esta forma:
 
 API_PORT=
 DB_USER=
@@ -14,7 +14,7 @@ DB_MIN=
 DB_IDLE=
 DB_TIMEOUT=
 
-Y tambien debes que crear un tabla en tu base de datos con el nombre "user" y cargar la extension pgcrypto en tu base de datos de esta forma:
+Y tambien debes crear una tabla en tu base de datos con el nombre "user" y cargar la extension pgcrypto en tu base de datos de esta forma:
 
 CREATE EXTENSION pgcrypto;
 

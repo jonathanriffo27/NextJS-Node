@@ -4,37 +4,90 @@ import {
 
 const getAllController = async (req: any, res: any) => {
     const response = await getAllModel();
-    res.send(response);
+    try {
+        res.json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            data: null,
+            error
+        })
+    }
 };
 
 const getByIdController = async (req: any, res: any) => {
     const {id} = req.params;
     const response = await getByIdModel(id);
-    res.send(response);
+    try {
+        res.json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            data: null,
+            error
+        })
+    }
 };
 
 const createController = async (req: any, res: any) => {
-    const rut = req.body.rut
-    const name = req.body.name
-    const paternalLastName = req.body.paternalLastName
-    const maternalLastName = req.body.maternalLastName
-    const email = req.body.email
-    const phone = req.body.phone
+    const {rut, name, paternalLastName, maternalLastName, email, phone} = req.body
     const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone);
-    res.send(response);
+    try {
+        res.json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            data: null,
+            error
+        })
+    }
 };
 
 const updateController = async (req: any, res: any) => {
     const {id} = req.params;
     const {rut, name, paternalLastName, maternalLastName, email, phone} = req.body;
     const response = await updateModel(id, rut, name, paternalLastName, maternalLastName, email, phone);
-    res.send(response);
+    try {
+        res.json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            data: null,
+            error
+        })
+    }
 };
 
 const deleteController = async (req: any, res: any) => {
     const {id} = req.params;
-    const response = await deleteModel(id);
-    res.send(response); 
+    await deleteModel(id);
+    try {
+        res.json({
+            success: true,
+            error: null
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            error
+        })
+    }
 };
 
 export {getAllController, getByIdController, createController, updateController, deleteController}
