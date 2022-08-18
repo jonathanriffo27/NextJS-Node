@@ -9,7 +9,7 @@ const getAllModel = async () => {
                 maternalLastName, 
                 email, 
                 phone
-        FROM user.public`);
+        FROM public.user`);
     return result.rows;
 }
 
@@ -21,14 +21,14 @@ const getByIdModel = async (id: string) => {
                 maternalLastName, 
                 email, 
                 phone
-        FROM user.public 
+        FROM public.user 
         WHERE id = $1`, [id]);
     return result.rows;
 }
 
 const createModel = async (rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
     const result = await pool.query(`
-    INSERT INTO user.public (rut, 
+    INSERT INTO public.user (rut, 
                             name, 
                             paternalLastName, 
                             maternalLastName, 
@@ -40,7 +40,7 @@ const createModel = async (rut: string, name: string, paternalLastName: string, 
 
 const updateModel = async (id: string, rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
     const result = await pool.query(` 
-    UPDATE user.public SET  rut = $2, 
+    UPDATE public.user SET  rut = $2, 
                             name = $3,
                             paternalLastName = $4,
                             maternalLastName =$5,
@@ -52,7 +52,7 @@ const updateModel = async (id: string, rut: string, name: string, paternalLastNa
 
 const deleteModel = async (id: string) => {
     const result = await pool.query(`
-    DELETE FROM user.public 
+    DELETE FROM public.user 
     WHERE id = $1`, [id]);
     return result.rows;
 }
