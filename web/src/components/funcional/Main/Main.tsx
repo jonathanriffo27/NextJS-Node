@@ -14,7 +14,7 @@ const Main = () => {
       <Header showMenu={showMenu} setShowMenu={setshowMenu} />
       <Body>
         <Menu showMenu={showMenu} setShowMenu={setshowMenu} />
-        <UserInfo nombre={`${user.name} ${user.paternalLastName}`} 
+        <UserInfo nombre={`${user.name} ${user.paternallastname}`} 
                   cargo={user.grade} />
       </Body>
     </div>
