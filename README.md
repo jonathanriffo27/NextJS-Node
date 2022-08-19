@@ -25,7 +25,13 @@ DB_IDLE=
 DB_TIMEOUT=
 ```
 
-Junto con crear tambien una tabla en tu base de datos con el nombre "user" y cargar la extension uuid en tu base de datos de esta forma:
+Para arrancar la API debes ejecutar:
+
+```
+yarn start
+```
+
+Tambien debes crear una tabla en tu base de datos con el nombre "user" y cargar la extension uuid en tu base de datos de esta forma:
 
 ``` sql
 CREATE EXTENSION "uuid-ossp";
@@ -45,10 +51,16 @@ grade VARCHAR(50)
 );
 ```
 
-Finalmente para registrar los nuevos usuarios debes hacer un get a la siguiente ruta con la informacion necesario enviada por el body.
+Para iniciar la WEB debes ejecutar:
+
+````
+yarn dev
+```
+
+Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con la informacion necesario enviada por el body.
 
 ´´´
-http://localhost:3000/api/user/create
+<localhost>/api/user/create
 
 {   
    "rut": "",

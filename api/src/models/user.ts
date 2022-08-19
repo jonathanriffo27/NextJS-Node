@@ -40,7 +40,7 @@ const createModel = async (rut: string, name: string, paternalLastName: string, 
             urlPhoto,
             grade
         ) 
-        VALUES ($1, $2, $3, $4, $5, $6) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
         RETURNING *`, [rut, name, paternalLastName, maternalLastName, email, phone, hash, urlPhoto, grade]);
     return result.rows[0];
 }
