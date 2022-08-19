@@ -81,8 +81,6 @@ const validateModel = async (email: string, password: string) => {
                 grade
         FROM public.user 
         WHERE email = $1 AND hash = $2`, [email, password]);
-        console.log(email, password);
-        
     return result.rows[0];
 } 
 

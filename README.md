@@ -56,7 +56,7 @@ Para iniciar la WEB debes ejecutar:
 yarn dev
 ```
 
-Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con la informacion necesario enviada por el body.
+Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con la informacion necesaria enviada por body.
 
 
 ```
