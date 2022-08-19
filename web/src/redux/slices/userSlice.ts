@@ -1,63 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {Users} from "../../data/users"
+import axios from "axios"
+
 
 const initialState = {
   list: [],
   user: {
-    "gender": "",
-    "name": {
-      "title": "",
-      "first": "",
-      "last": ""
-    },
-    "location": {
-      "street": {
-        "number": 0,
-        "name": ""
-      },
-      "city": "",
-      "state": "",
-      "country": "",
-      "postcode": 0,
-      "coordinates": {
-        "latitude": "",
-        "longitude": ""
-      },
-      "timezone": {
-        "offset": "",
-        "description": ""
-      }
-    },
+    "id": "",
+    "rut": "",
+    "name": "",
+    "paternalLastName": "",
+    "maternalLastName": "",
     "email": "",
-    "login": {
-      "uuid": "",
-      "username": "",
-      "password": "",
-      "salt": "",
-      "md5": "",
-      "sha1": "",
-      "sha256": ""
-    },
-    "dob": {
-      "date": "",
-      "age": 0
-    },
-    "registered": {
-      "date": "",
-      "age": 0
-    },
     "phone": "",
-    "cell": "",
-    "id": {
-      "name": "",
-      "value": ""
-    },
-    "picture": {
-      "large": "",
-      "medium": "",
-      "thumbnail": ""
-    },
-    "nat": ""
+    "urlphoto": "",
+    "grade": ""
   },
   error: '',
 };
@@ -85,12 +41,17 @@ export const {setUserList, setUser, resetUser, setError} = userSlice.actions;
 
 export default userSlice.reducer;
 
-export const validateUser = (email: string, password: string) => (dispatch: any) => { 
-  const findUser = Users.filter(item => item.email === email)[0]
-  if(!findUser || findUser.login.password !== password){
-    return dispatch(setError('Usuario o contraseña incorrecta'))
-  }
-  if(findUser && findUser.login.password === password){
-      return dispatch(setUser(findUser))
-  }
- }
+export const validateUser =
+  (email: string, password: string) => (dispatch: any) => {
+    axios
+      .post(
+        'http://localhost:3001/api/user/validate',
+        { email, password }
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        
+        dispatch(setUser(response.data.data));
+      })
+      .catch((error) => console.log(error));
+};

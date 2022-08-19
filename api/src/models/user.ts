@@ -41,17 +41,19 @@ const createModel = async (rut: string, name: string, paternalLastName: string, 
     return result.rows[0];
 }
 
-const updateModel = async (id: string, rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
+const updateModel = async (id: string, rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string, hash: string, isActive: string) => {
     const result = await pool.query(`
         UPDATE public.user 
         SET rut = $2, 
             name = $3,
             paternalLastName = $4,
-            maternalLastName =$5,
+            maternalLastName = $5,
             email = $6,
-            phone =$7 
+            phone = $7,
+            hash = $8,
+            isActive = $9 
         WHERE id = $1 
-        RETURNING *`, [id, rut, name, paternalLastName, maternalLastName, email, phone]);
+        RETURNING *`, [id, rut, name, paternalLastName, maternalLastName, email, phone, hash, isActive]);
     return result.rows[0];
 }
 
@@ -63,4 +65,21 @@ const deleteModel = async (id: string) => {
     return result;
 }
 
-export {getAllModel, getByIdModel, createModel, updateModel, deleteModel};
+const validateModel = async (email: string, password: string) => {
+    const result = await pool.query(`
+        SELECT  rut,
+                name, 
+                paternalLastName, 
+                maternalLastName, 
+                email, 
+                phone,
+                urlphoto,
+                grade
+        FROM public.user 
+        WHERE email = $1 AND hash = $2`, [email, password]);
+        console.log(email, password);
+        
+    return result.rows[0];
+} 
+
+export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel};

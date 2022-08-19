@@ -1,5 +1,5 @@
 import {
-    getAllModel, getByIdModel, createModel, updateModel, deleteModel
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel
 } from "../models/user";
 
 const getAllController = async (req: any, res: any) => {
@@ -57,9 +57,9 @@ const createController = async (req: any, res: any) => {
 
 const updateController = async (req: any, res: any) => {
     const {id} = req.params;
-    const {rut, name, paternalLastName, maternalLastName, email, phone} = req.body;
-    const response = await updateModel(id, rut, name, paternalLastName, maternalLastName, email, phone);
-    try {
+    const {rut, name, paternalLastName, maternalLastName, email, phone, hash, isActive} = req.body;
+    const response = await updateModel(id, rut, name, paternalLastName, maternalLastName, email, phone, hash, isActive); 
+    try { 
         res.json({
             success: true,
             data: response,
@@ -68,7 +68,7 @@ const updateController = async (req: any, res: any) => {
     } catch (error) {
         res.json({
             success: false,
-            data: null,
+            data: null, 
             error
         })
     }
@@ -90,4 +90,22 @@ const deleteController = async (req: any, res: any) => {
     }
 };
 
-export {getAllController, getByIdController, createController, updateController, deleteController}
+const validateController = async (req: any, res: any) => {
+    const {email, password} = req.body;
+    const response = await validateModel(email, password);  
+    try {
+        res.json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            data: null,
+            error
+        })
+    }
+};
+
+export {getAllController, getByIdController, createController, updateController, deleteController, validateController} 
