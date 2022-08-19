@@ -1,8 +1,17 @@
-# Este es un proyecto realizado con NextJS y una APi local
+# Este es un proyecto realizado con NextJS y una API local
 
 ## Iniciando
 
-Para iniciar el proyecto debes crear un tu raiz un archivo .env con la variable necesarias para la conexion a la base de datos, de esta forma:
+Luego de clonar el repositorio, se deben instalar las dependencias de cada aplicacion (WEB y API) con  los siguientes comandos:
+
+´´´
+yarn  
+o
+npm i 
+
+´´´
+
+Despues debes crear en la raiz de la API un archivo ".env" con las variables necesarias para la conexion a tu base de datos, de esta forma:
 
 ```sh
 API_PORT=
@@ -16,10 +25,10 @@ DB_IDLE=
 DB_TIMEOUT=
 ```
 
-Y tambien debes crear una tabla en tu base de datos con el nombre "user" y cargar la extension pgcrypto en tu base de datos de esta forma:
+Junto con crear tambien una tabla en tu base de datos con el nombre "user" y cargar la extension uuid en tu base de datos de esta forma:
 
 ``` sql
-CREATE EXTENSION pgcrypto;
+CREATE EXTENSION "uuid-ossp";
 
 CREATE TABLE "user" (
 id uuid NOT NULL default gen_random_uuid (),
@@ -29,8 +38,29 @@ paternalLastName VARCHAR(25) NOT NULL,
 maternalLastName VARCHAR(25) NOT NULL, 
 email VARCHAR(50) NOT NULL, 
 phone VARCHAR(50) NOT NULL, 
-hash VARCHAR(50)
+hash VARCHAR(50),
+isActive BOOLEAN default true,
+urlPhoto VARCHAR(50),
+grade VARCHAR(50)
 );
 ```
 
-Finalmente cada ves que accedas a tu tabla desde la api debes nombrarla asi: "public.user".
+Finalmente para registrar los nuevos usuarios debes hacer un get a la siguiente ruta con la informacion necesario enviada por el body.
+
+´´´
+http://localhost:3000/api/user/create
+
+{   
+   "rut": "",
+    "name": "",
+    "paternalLastName": "",
+    "maternalLastName": "",
+    "email": "",
+    "phone": "",
+    "hash": 0,
+    "urlPhoto": "",
+    "grade": ""
+}
+
+
+´´´

@@ -14,8 +14,8 @@ api/coverage
 web/coverage
 
 # next.js
-api/.next/
-web/.next/
+api/.next
+web/.next
 /.next/
 /out/
 

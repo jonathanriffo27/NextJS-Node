@@ -27,7 +27,7 @@ const getByIdModel = async (id: string) => {
     return result.rows[0];
 }
 
-const createModel = async (rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string) => {
+const createModel = async (rut: string, name: string, paternalLastName: string, maternalLastName: string, email: string, phone: string, hash: string, urlPhoto: string, grade: string) => {
     const result = await pool.query(`
         INSERT INTO public.user (
             rut, 
@@ -35,9 +35,13 @@ const createModel = async (rut: string, name: string, paternalLastName: string, 
             paternalLastName, 
             maternalLastName, 
             email, 
-            phone) 
+            phone,
+            hash, 
+            urlPhoto,
+            grade
+        ) 
         VALUES ($1, $2, $3, $4, $5, $6) 
-        RETURNING *`, [rut, name, paternalLastName, maternalLastName, email, phone]);
+        RETURNING *`, [rut, name, paternalLastName, maternalLastName, email, phone, hash, urlPhoto, grade]);
     return result.rows[0];
 }
 

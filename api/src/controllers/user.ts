@@ -38,8 +38,8 @@ const getByIdController = async (req: any, res: any) => {
 };
 
 const createController = async (req: any, res: any) => {
-    const {rut, name, paternalLastName, maternalLastName, email, phone} = req.body
-    const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone);
+    const {rut, name, paternalLastName, maternalLastName, email, phone, hash, urlPhoto, grade} = req.body
+    const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone, hash, urlPhoto, grade);
     try {
         res.json({
             success: true,
