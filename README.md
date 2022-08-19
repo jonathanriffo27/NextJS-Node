@@ -8,7 +8,6 @@ Luego de clonar el repositorio, se deben instalar las dependencias de cada aplic
 yarn  
 o
 npm i 
-
 ´´´
 
 Despues debes crear en la raiz de la API un archivo ".env" con las variables necesarias para la conexion a tu base de datos, de esta forma:
@@ -59,6 +58,7 @@ yarn dev
 
 Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con la informacion necesario enviada por el body.
 
+
 ´´´
 <localhost>/api/user/create
 
@@ -73,6 +73,4 @@ Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con 
     "urlPhoto": "",
     "grade": ""
 }
-
-
 ´´´
