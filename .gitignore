@@ -4,6 +4,7 @@
 /api/node_modules
 web/node_modules
 /node_module
+node_module
 /.pnp
 .pnp.js
 
