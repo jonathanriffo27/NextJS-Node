@@ -72,8 +72,8 @@ const validateModel = async (email: string, password: string) => {
     const result = await pool.query(`
         SELECT  rut,
                 name, 
-                paternalLastName, 
-                maternalLastName, 
+                paternallastname, 
+                maternallastname, 
                 email, 
                 phone,
                 urlphoto,
@@ -83,8 +83,8 @@ const validateModel = async (email: string, password: string) => {
         WHERE email = $1`, [email]);
     const { rut,
             name, 
-            paternalLastName, 
-            maternalLastName, 
+            paternallastname, 
+            maternallastname, 
             phone,
             urlphoto,
             grade,
@@ -92,8 +92,8 @@ const validateModel = async (email: string, password: string) => {
     const isValid = await bcrypt.compare(password, hash);
     return {rut,
             name, 
-            paternalLastName, 
-            maternalLastName, 
+            paternallastname, 
+            maternallastname, 
             phone,
             urlphoto,
             grade,

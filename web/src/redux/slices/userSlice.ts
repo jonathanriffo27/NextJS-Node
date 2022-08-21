@@ -8,11 +8,11 @@ const initialState = {
     "id": "",
     "rut": "",
     "name": "",
-    "paternallastname": "",
-    "maternallastname": "",
+    "paternalLastName": "",
+    "maternalLastName": "",
     "email": "",
     "phone": "",
-    "urlphoto": "",
+    "urlPhoto": "",
     "grade": ""
   },
   error: '',
@@ -49,7 +49,27 @@ export const validateUser =
         { email, password }
       )
       .then((response) => {
-        dispatch(setUser(response.data.data));
+        const { id,
+                rut,
+                name,
+                paternallastname,
+                maternallastname,
+                email,
+                phone,
+                urlphoto,
+                grade 
+    } = response.data.data;
+    console.log(response.data.data);
+    
+        dispatch(setUser({id,
+                          rut,
+                          name,
+                          paternalLastName: paternallastname,
+                          maternalLastName: maternallastname,
+                          email,
+                          phone,
+                          urlPhoto: urlphoto,
+                          grade }));
       })
       .catch((error) =>  dispatch(setError('Usuario o contraseña incorrecta')));
 };

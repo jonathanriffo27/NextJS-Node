@@ -32,12 +32,12 @@ const UserInfo = ({ nombre, cargo }: any) => {
 
 const UserPic = ({ width, height }: any) => {
   const { user } = useAppSelector((state) => state.userSlice);
-  console.log(user.urlphoto);
+  console.log(user.urlPhoto);
   
   return (
     <div
       style={{
-        backgroundImage: `url(${user.urlphoto})`,
+        backgroundImage: `url(${user.urlPhoto})`,
         width: `${width}`,
         height: `${height}`,
       }}
