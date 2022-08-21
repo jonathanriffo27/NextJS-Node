@@ -49,9 +49,7 @@ export const validateUser =
         { email, password }
       )
       .then((response) => {
-        console.log(response.data.data);
-        
         dispatch(setUser(response.data.data));
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>  dispatch(setError('Usuario o contraseña incorrecta')));
 };

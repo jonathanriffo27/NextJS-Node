@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/jonathanriffo27/el_muro#readme",
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.17.3",

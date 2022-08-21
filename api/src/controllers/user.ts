@@ -1,17 +1,17 @@
 import {
-    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel
 } from "../models/user";
 
 const getAllController = async (req: any, res: any) => {
-    const response = await getAllModel();
     try {
-        res.json({
+        const response = await getAllModel();
+        res.status(200).json({
             success: true,
             data: response,
             error: null
         })
     } catch (error) {
-        res.json({
+        res.status(500).json({
             success: false,
             data: null,
             error
@@ -21,15 +21,15 @@ const getAllController = async (req: any, res: any) => {
 
 const getByIdController = async (req: any, res: any) => {
     const {id} = req.params;
-    const response = await getByIdModel(id);
     try {
-        res.json({
+        const response = await getByIdModel(id);
+        res.status(200).json({
             success: true,
             data: response,
             error: null
         })
     } catch (error) {
-        res.json({
+        res.status(500).json({
             success: false,
             data: null,
             error
@@ -38,16 +38,16 @@ const getByIdController = async (req: any, res: any) => {
 };
 
 const createController = async (req: any, res: any) => {
-    const {rut, name, paternalLastName, maternalLastName, email, phone, hash, urlPhoto, grade} = req.body
-    const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone, hash, urlPhoto, grade);
+    const {rut, name, paternalLastName, maternalLastName, email, phone, urlPhoto, grade} = req.body
     try {
-        res.json({
+        const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone, urlPhoto, grade);
+        res.status(200).json({
             success: true,
             data: response,
             error: null
         })
     } catch (error) {
-        res.json({
+        res.status(500).json({
             success: false,
             data: null,
             error
@@ -57,16 +57,16 @@ const createController = async (req: any, res: any) => {
 
 const updateController = async (req: any, res: any) => {
     const {id} = req.params;
-    const {rut, name, paternalLastName, maternalLastName, email, phone, hash, isActive} = req.body;
-    const response = await updateModel(id, rut, name, paternalLastName, maternalLastName, email, phone, hash, isActive); 
+    const {rut, name, paternalLastName, maternalLastName, email, phone, isActive} = req.body;
     try { 
-        res.json({
+        const response = await updateModel(id, rut, name, paternalLastName, maternalLastName, email, phone, isActive); 
+        res.status(200).json({
             success: true,
             data: response,
             error: null
         })
     } catch (error) {
-        res.json({
+        res.status(500).json({
             success: false,
             data: null, 
             error
@@ -76,14 +76,14 @@ const updateController = async (req: any, res: any) => {
 
 const deleteController = async (req: any, res: any) => {
     const {id} = req.params;
-    await deleteModel(id);
     try {
-        res.json({
+        await deleteModel(id);
+        res.status(200).json({
             success: true,
             error: null
         })
     } catch (error) {
-        res.json({
+        res.status(500).json({
             success: false,
             error
         })
@@ -94,13 +94,22 @@ const validateController = async (req: any, res: any) => {
     const {email, password} = req.body;
     const response = await validateModel(email, password);  
     try {
-        res.json({
-            success: true,
-            data: response,
-            error: null
-        })
+        if(response.isValid){
+            res.status(200).json({
+                success: true,
+                data: response,
+                error: null
+            })
+        }else {
+            res.status(403).json({
+                success: false,
+                data: null,
+                error: 'User not valid'
+            })
+        }
+        
     } catch (error) {
-        res.json({
+        res.status(500).json({
             success: false,
             data: null,
             error
@@ -108,4 +117,23 @@ const validateController = async (req: any, res: any) => {
     }
 };
 
-export {getAllController, getByIdController, createController, updateController, deleteController, validateController} 
+const assaignPasswordController = async (req: any, res: any) => {
+    const {id, password} = req.body;
+    try { 
+        const response = await assaignPasswordModel(id, password);
+        res.status(200).json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            data: null, 
+            error
+        })
+    }
+
+}
+
+export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController} 

@@ -43,7 +43,7 @@ paternalLastName VARCHAR(25) NOT NULL,
 maternalLastName VARCHAR(25) NOT NULL, 
 email VARCHAR(50) NOT NULL, 
 phone VARCHAR(50) NOT NULL, 
-hash VARCHAR(50),
+hash VARCHAR(100),
 isActive BOOLEAN default true,
 urlPhoto VARCHAR(50),
 grade VARCHAR(50)
@@ -72,5 +72,16 @@ Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con 
     "hash": 0,
     "urlPhoto": "",
     "grade": ""
+}
+```
+
+Para asignar las constraseñas debe hacer un put al siguiente endpoint con el id respectivo y la constraseña enviadas por body:
+
+```
+<localhost>/api/user/assignPassword
+
+{
+    "id": "",
+    "password": ""
 }
 ```
