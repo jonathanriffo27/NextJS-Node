@@ -10,14 +10,16 @@ import {
   assaignPasswordController
 } from "../controllers/user";
 
+import auth from "../middleware/auth";
+
 const UserRouter = Router();
 
-UserRouter.get("/getAll", getAllController);
-UserRouter.get("/getById/:id", getByIdController);
-UserRouter.post("/create", createController);
-UserRouter.put("/update/:id", updateController);
-UserRouter.delete("/delete/:id", deleteController);
-UserRouter.post("/validate", validateController);
-UserRouter.put("/assignPassword", assaignPasswordController);
+UserRouter.get("/getAll", auth, getAllController);
+UserRouter.get("/getById/:id", auth, getByIdController);
+UserRouter.post("/create", auth, createController);
+UserRouter.put("/update/:id", auth, updateController);
+UserRouter.delete("/delete/:id", auth, deleteController);
+UserRouter.post("/validate", auth, validateController);
+UserRouter.put("/assignPassword", auth, assaignPasswordController);
 
 export default UserRouter;

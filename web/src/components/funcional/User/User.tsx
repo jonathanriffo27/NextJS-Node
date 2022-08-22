@@ -32,7 +32,6 @@ const UserInfo = ({ nombre, cargo }: any) => {
 
 const UserPic = ({ width, height }: any) => {
   const { user } = useAppSelector((state) => state.userSlice);
-  console.log(user.urlPhoto);
   
   return (
     <div

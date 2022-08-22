@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios"
+import axios from "axios";
+import apiKey from "../../utils/config";
 
 
 const initialState = {
@@ -46,7 +47,7 @@ export const validateUser =
     axios
       .post(
         'http://localhost:3001/api/user/validate',
-        { email, password }
+        { email, password }, { headers: {api_key: apiKey}}
       )
       .then((response) => {
         const { id,
@@ -59,8 +60,6 @@ export const validateUser =
                 urlphoto,
                 grade 
     } = response.data.data;
-    console.log(response.data.data);
-    
         dispatch(setUser({id,
                           rut,
                           name,

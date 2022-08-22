@@ -10,7 +10,8 @@ const config = {
     dbMax: process.env.DB_MAX || 12,
     dbMin: process.env.DB_MIN || 2,
     dbIdle: process.env.DB_IDLE  || 3000,
-    dbTimeout: process.env.DB_TIMEOUT || 2000
+    dbTimeout: process.env.DB_TIMEOUT || 2000,
+    apiKey: process.env.API_KEY
 };
 
 export default config;
