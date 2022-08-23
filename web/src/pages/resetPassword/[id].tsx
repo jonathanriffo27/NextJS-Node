@@ -51,11 +51,7 @@ export default function resetPassword({data}:any) {
 
     const handleChangeConfirmPassword = (e:any) => {
         setResetPasswordForm({...resetPasswordForm, confirmPassword: e.target.value})
-        comparePassword();
-    }
-
-    const comparePassword = () => {
-        if(resetPasswordForm.password == resetPasswordForm.confirmPassword && resetPasswordForm.password !== '') {
+        if(e.target.value === resetPasswordForm.password){
             dispatch(setError(''))
             setResetPasswordForm({...resetPasswordForm, disabled: false})
         } else {
