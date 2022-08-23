@@ -119,6 +119,7 @@ const validateController = async (req: any, res: any) => {
 
 const assaignPasswordController = async (req: any, res: any) => {
     const {id, password} = req.body;
+    
     try { 
         const response = await assaignPasswordModel(id, password);
         res.status(200).json({

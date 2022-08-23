@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { validateUser } from '../../../redux/slices/userSlice'
+import Link from 'next/link'
 
 import Logo from "../../ui/Logo"
 import InputText from "../../ui/InputText"
 import Button from "../../ui/Button"
-import Link  from "../../ui/Link"
+import LinkUi  from "../../ui/Link"
 
 const Login = () => {
   const {error} = useAppSelector((state) => state.userSlice);
@@ -36,7 +37,7 @@ const Login = () => {
                    value={login.password} />
       </div>
       <Button text='Ingresar' width='250px' onClick={handleClick} />
-      <Link text='Olvide mi contraseña' url='' />
+      <LinkUi text='Olvide mi contraseña' id='67e96deb-36c2-4f5b-a7bd-c0f96cd2aae1' />
       <p className='mensaje text-red-500 text-md absolute bottom-[180px]'>{error}</p>
     </div>
   ) 

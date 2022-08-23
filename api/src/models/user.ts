@@ -88,7 +88,7 @@ const validateModel = async (email: string, password: string) => {
             phone,
             urlphoto,
             grade,
-            hash} = result.rows[0];  
+            hash} = result.rows[0];   
     const isValid = await bcrypt.compare(password, hash);
     return {rut,
             name, 

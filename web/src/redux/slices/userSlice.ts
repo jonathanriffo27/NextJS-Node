@@ -59,7 +59,7 @@ export const validateUser =
                 phone,
                 urlphoto,
                 grade 
-    } = response.data.data;
+        } = response.data.data;
         dispatch(setUser({id,
                           rut,
                           name,
@@ -71,4 +71,18 @@ export const validateUser =
                           grade }));
       })
       .catch((error) =>  dispatch(setError('Usuario o contraseña incorrecta')));
+};
+
+export const assignPassword =
+  (id: string, password: string) => (dispatch: any) => {
+    axios
+      .put(
+        'http://localhost:3001/api/user/assignPassword',
+        { id, password }, { headers: {api_key: apiKey}}
+      )
+      .then((response) => {
+        console.log('Registro de nueva contrasela exitoso');
+        
+      })
+      .catch((error) =>  dispatch(setError('Error en el proceso')));
 };
