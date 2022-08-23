@@ -7,7 +7,9 @@ import {
   updateController,
   deleteController,
   validateController,
-  assaignPasswordController
+  assaignPasswordController,
+  generatePasswordController,
+  getByEmailController
 } from "../controllers/user";
 
 import auth from "../middleware/auth";
@@ -21,5 +23,7 @@ UserRouter.put("/update/:id", auth, updateController);
 UserRouter.delete("/delete/:id", auth, deleteController);
 UserRouter.post("/validate", auth, validateController);
 UserRouter.put("/assignPassword", auth, assaignPasswordController);
+UserRouter.post("/generatePassword", auth, generatePasswordController);
+UserRouter.post("/getByEmail", auth, getByEmailController);
 
 export default UserRouter;

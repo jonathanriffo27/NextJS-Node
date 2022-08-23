@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { assignPassword, setError } from '../../redux/slices/userSlice';
 import { useRouter } from 'next/router'
@@ -7,6 +7,7 @@ import axios from "axios";
 import apiKey from '../../utils/config';
 import InputText from '../../components/ui/InputText';
 import Button from '../../components/ui/Button';
+import { validateGenericPassword } from '../../redux/slices/userSlice';
 
 
 
@@ -22,23 +23,16 @@ export default function resetPassword({data}:any) {
 
     const [resetPasswordForm, setResetPasswordForm] = useState(initialtState);
 
-    const generatePassword = () => {
-        let password = "";
-        const chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        for (var i = 0; i <= 12; i++) {
-            var randomNumber = Math.floor(Math.random() * chars.length);
-            password += chars.substring(randomNumber, randomNumber +1);
+    const handleClick = async () => {
+        const res = await validateGenericPassword(data.data.email, resetPasswordForm.generatedPassword);
+        if(res){
+            dispatch(assignPassword(data.data.id, resetPasswordForm.password))
+            router.push('/')
+        } else {
+            dispatch(setError('Contraseña generica incorrecta'))
         }
-        return password;
-    }
-
-    useEffect(() => {
-        setResetPasswordForm({...resetPasswordForm, generatedPassword: generatePassword()});
-    }, [])
-
-    const handleClick = () => {
-        dispatch(assignPassword(data, resetPasswordForm.password))
-        router.push('/')
+        
+          
     }
     
     const handleChangeGeneratedPassword = (e:any) => {
@@ -50,13 +44,14 @@ export default function resetPassword({data}:any) {
     }
 
     const handleChangeConfirmPassword = (e:any) => {
-        setResetPasswordForm({...resetPasswordForm, confirmPassword: e.target.value})
         if(e.target.value === resetPasswordForm.password){
             dispatch(setError(''))
             setResetPasswordForm({...resetPasswordForm, disabled: false})
+            setResetPasswordForm({...resetPasswordForm, confirmPassword: e.target.value})
         } else {
             dispatch(setError('Contraseñas no coinciden'))
-        }
+            setResetPasswordForm({...resetPasswordForm, confirmPassword: e.target.value})
+        }   
     }
 
     return (
@@ -67,7 +62,7 @@ export default function resetPassword({data}:any) {
             <div className='flex flex-col gap-[5px]'>
                 <InputText  label='Contraseña generica' 
                             width='303px' 
-                            type='email'
+                            type='password'
                             onChange={handleChangeGeneratedPassword} 
                             value={resetPasswordForm.generatedPassword} />
                 <InputText  label='Password' 
@@ -83,7 +78,7 @@ export default function resetPassword({data}:any) {
             </div>
             <Button text='Registrar' 
                     width='250px' 
-                    disabled={resetPasswordForm.disabled} 
+                    // disabled={resetPasswordForm.disabled} 
                     onClick={handleClick} />
             <div className='flex justify-center'>
                 <p className='mensaje text-red-500 text-md absolute bottom-[180px]'>{error}</p>
@@ -98,7 +93,7 @@ export async function getStaticPaths() {
         {headers: {api_key: apiKey}});
 
         const paths = data.data.map((item:any) => ({params: {id: `${item.id}`}}))
-        
+
         return {
             paths,
             fallback: false
@@ -110,13 +105,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({params}:any) {
     try {
-        const data = params.id;
-        
+        const {data} = await axios.get(`http://localhost:3001/api/user/getById/${params.id}`, {headers: {api_key: apiKey}});
+
         return {
             props: {
-                data,
+                data
             }
-        }
+        } 
     } catch (error) {
         console.log(error);
     }   

@@ -86,3 +86,25 @@ export const assignPassword =
       })
       .catch((error) =>  dispatch(setError('Error en el proceso')));
 };
+
+export const getByEmail = async (email:any) => {
+  const {data} = await axios.post('http://localhost:3001/api/user/getByEmail',
+  {email}, {headers: {api_key: apiKey}});
+  return data
+}
+
+export const assignGenericPassword = (id:any) => {
+  return (
+    axios.post('http://localhost:3001/api/user/generatePassword',
+    {id}, {headers: {api_key: apiKey}})
+  )
+}
+
+export const validateGenericPassword = (email:any, password:any) => {
+  return axios.post('http://localhost:3001/api/user/validate', 
+    { email, password }, { headers: {api_key: apiKey}})
+    .then(({data}) => {
+      return data.data.isValid;
+    })
+    .catch((error) => false)
+}

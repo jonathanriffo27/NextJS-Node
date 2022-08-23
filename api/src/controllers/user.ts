@@ -1,5 +1,5 @@
 import {
-    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel
 } from "../models/user";
 
 const getAllController = async (req: any, res: any) => {
@@ -137,4 +137,44 @@ const assaignPasswordController = async (req: any, res: any) => {
 
 }
 
-export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController} 
+const generatePasswordController = async (req: any, res: any) => {
+    const {id} = req.body;
+    
+    try { 
+        const response = await generatePasswordModel(id);
+        res.status(200).json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            data: null, 
+            error
+        })
+    }
+
+}
+
+const getByEmailController = async (req: any, res: any) => {
+    const {email} = req.body;
+    
+    try { 
+        const response = await getByEmailModel(email);
+        res.status(200).json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            data: null, 
+            error
+        })
+    }
+
+}
+
+export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController, generatePasswordController, getByEmailController} 
