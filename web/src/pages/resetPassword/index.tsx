@@ -1,41 +1,32 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setError } from '../../redux/slices/userSlice';
 import { useRouter } from 'next/router'
 
-import InputText from "../../components/ui/InputText"
-import Button from "../../components/ui/Button"
-import apiKey from "../../utils/config";
-import { assignGenericPassword, getByEmail } from "../../redux/slices/userSlice";
+import InputText from "../../components/ui/InputText";
+import Button from "../../components/ui/Button";
+import { assignGenericPassword } from "../../redux/slices/userSlice";
 
-const getEmail = ({emails}:any) => {
+const sendEmail = () => {
     const router = useRouter()
-    const {error} = useAppSelector((state) => state.userSlice);
     const dispatch = useAppDispatch();
-    const inicialState = {
-        value: '',
-        disabled: true
-    }
+    const inicialState = { value: '', disabled: true}
+    const {error, genericPassword} = useAppSelector((state) => state.userSlice);
     const [email, setEmail] = useState(inicialState);
 
+    useEffect(() => {
+        if(genericPassword.state) {
+            router.push(`/resetPassword/${genericPassword.id}`)
+        }        
+      }, [genericPassword])
+
     const handleChangeEmail = (e:any) => {
-        if(emails.indexOf(e.target.value) !== -1){
-            setEmail({...email, disabled: false})
+            setEmail({...email, value: e.target.value})
             dispatch(setError(''))
-            setEmail({...email, value: e.target.value})
-        } else {
-            dispatch(setError('Correo electronico no valido'))
-            setEmail({...email, value: e.target.value})
-        }  
-         
+            // setEmail({...email, disabled: false})
     }
 
-    const handleClick = async () => {
-        const {data} = await getByEmail(email.value)
-        assignGenericPassword(data.id);
-        router.push(`/resetPassword/${data.id}`)
-    }   
+    const handleClick = async () => dispatch(assignGenericPassword(email.value));
 
   return (
     <div className="Login flex flex-col justify-center items-center w-screen h-screen gap-[30px]">
@@ -60,21 +51,4 @@ const getEmail = ({emails}:any) => {
   )
 }
 
-export default getEmail
-
-export async function getStaticProps() {
-    try {
-        const {data} = await axios.get('http://localhost:3001/api/user/getAll',
-        {headers: {api_key: apiKey}});
-
-        const emails = data.data.map((item:any) => (item.email));
-
-        return {
-            props: {
-                emails,
-            }
-        }
-    } catch (error) {
-        console.log(error);
-    }   
-}
+export default sendEmail;

@@ -140,4 +140,36 @@ const getByEmailModel = async (email: string) => {
     return result.rows[0];
 }
 
-export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel};
+const validateGenericPasswordModel = async (id: string, password: string) => {
+    const result = await pool.query(`
+        SELECT  rut,
+                name, 
+                paternallastname, 
+                maternallastname, 
+                email, 
+                phone,
+                urlphoto,
+                grade,
+                hash
+        FROM public.user 
+        WHERE id = $1`, [id]);
+    const { rut,
+            name, 
+            paternallastname, 
+            maternallastname, 
+            phone,
+            urlphoto,
+            grade,
+            hash} = result.rows[0];   
+    const isValid = await bcrypt.compare(password, hash);
+    return {rut,
+            name, 
+            paternallastname, 
+            maternallastname, 
+            phone,
+            urlphoto,
+            grade,
+            isValid};
+} 
+
+export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel, validateGenericPasswordModel};

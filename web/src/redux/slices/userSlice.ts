@@ -17,6 +17,9 @@ const initialState = {
     "grade": ""
   },
   error: '',
+  genericPassword: {state: false, 
+                    id:'', 
+                    success: true}
 };
 
 export const userSlice = createSlice({
@@ -34,21 +37,21 @@ export const userSlice = createSlice({
         },
         setError: (state: any, action: PayloadAction<any>) => { 
           state.error = action.payload;
-        }
+        },
+        setGenericPassword: (state: any, action: PayloadAction<any>) => { 
+          state.genericPassword = action.payload;
+        },
     }
 }) 
 
-export const {setUserList, setUser, resetUser, setError} = userSlice.actions;
+export const {setUserList, setUser, resetUser, setError, setGenericPassword} = userSlice.actions;
 
 export default userSlice.reducer;
 
 export const validateUser =
   (email: string, password: string) => (dispatch: any) => {
-    axios
-      .post(
-        'http://localhost:3001/api/user/validate',
-        { email, password }, { headers: {api_key: apiKey}}
-      )
+    axios.post('http://localhost:3001/api/user/validate',
+      { email, password }, { headers: {api_key: apiKey}})
       .then((response) => {
         const { id,
                 rut,
@@ -58,7 +61,7 @@ export const validateUser =
                 email,
                 phone,
                 urlphoto,
-                grade 
+                grade
         } = response.data.data;
         dispatch(setUser({id,
                           rut,
@@ -68,43 +71,24 @@ export const validateUser =
                           email,
                           phone,
                           urlPhoto: urlphoto,
-                          grade }));
-      })
-      .catch((error) =>  dispatch(setError('Usuario o contraseña incorrecta')));
+                          grade }))
+        })
+      .catch(() => dispatch(setError('Usuario o contraseña incorrecta')));
 };
 
 export const assignPassword =
-  (id: string, password: string) => (dispatch: any) => {
-    axios
-      .put(
-        'http://localhost:3001/api/user/assignPassword',
-        { id, password }, { headers: {api_key: apiKey}}
-      )
-      .then((response) => {
-        console.log('Registro de nueva contrasela exitoso');
-        
-      })
-      .catch((error) =>  dispatch(setError('Error en el proceso')));
+  (id: string, password: string) => (dispatch: any) => {    
+    axios.put('http://localhost:3001/api/user/assignPassword',
+      { id, password }, { headers: {api_key: apiKey}})
+      .then(() => {
+        dispatch(setGenericPassword({state: false, id: '', success: true}))
+        console.log('Registro de nueva contrasela exitoso')})
+      .catch(() =>  dispatch(setError('Error en el proceso')));
 };
 
-export const getByEmail = async (email:any) => {
-  const {data} = await axios.post('http://localhost:3001/api/user/getByEmail',
-  {email}, {headers: {api_key: apiKey}});
-  return data
-}
-
-export const assignGenericPassword = (id:any) => {
-  return (
+export const assignGenericPassword = (email:any) => (dispatch: any) => {
     axios.post('http://localhost:3001/api/user/generatePassword',
-    {id}, {headers: {api_key: apiKey}})
-  )
-}
-
-export const validateGenericPassword = (email:any, password:any) => {
-  return axios.post('http://localhost:3001/api/user/validate', 
-    { email, password }, { headers: {api_key: apiKey}})
-    .then(({data}) => {
-      return data.data.isValid;
-    })
-    .catch((error) => false)
-}
+      {email}, {headers: {api_key: apiKey}})
+      .then(({data}) => dispatch(setGenericPassword({state: true, id: data.data})))
+      .catch(() =>  dispatch(setError('Email no valido')));
+};

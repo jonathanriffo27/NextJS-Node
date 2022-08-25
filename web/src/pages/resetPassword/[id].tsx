@@ -1,53 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { assignPassword, setError } from '../../redux/slices/userSlice';
-import { useRouter } from 'next/router'
-import axios from "axios";
+import { useRouter } from 'next/router';
 
-import apiKey from '../../utils/config';
 import InputText from '../../components/ui/InputText';
 import Button from '../../components/ui/Button';
-import { validateGenericPassword } from '../../redux/slices/userSlice';
 
-
-
-export default function resetPassword({data}:any) {
+export default function resetPassword() {
     const router = useRouter()
-    const {error} = useAppSelector((state) => state.userSlice);
-    const dispatch = useAppDispatch();
-
+    const dispatch = useAppDispatch(); 
     const initialtState = { generatedPassword: '',
                             password: '',
                             confirmPassword: '',
                             disabled: true }
-
     const [resetPasswordForm, setResetPasswordForm] = useState(initialtState);
+    const {error, genericPassword} = useAppSelector((state) => state.userSlice);
 
-    const handleClick = async () => {
-        const res = await validateGenericPassword(data.data.email, resetPasswordForm.generatedPassword);
-        if(res){
-            dispatch(assignPassword(data.data.id, resetPasswordForm.password))
-            router.push('/')
-        } else {
-            dispatch(setError('Contraseña generica incorrecta'))
-        }
-        
-          
-    }
+    useEffect(() => {
+        if(genericPassword.success) {
+            router.push(`/`)
+        }        
+      }, [genericPassword])
+
+    const handleClick = async () => dispatch(assignPassword(genericPassword.id, resetPasswordForm.password))
     
-    const handleChangeGeneratedPassword = (e:any) => {
-        setResetPasswordForm({...resetPasswordForm, generatedPassword: e.target.value})
-    }
+    
+    const handleChangeGeneratedPassword = (e:any) => setResetPasswordForm({...resetPasswordForm, generatedPassword: e.target.value})
+    
 
-    const handleChangePassword = (e:any) => {
-        setResetPasswordForm({...resetPasswordForm, password: e.target.value})
-    }
+    const handleChangePassword = (e:any) => setResetPasswordForm({...resetPasswordForm, password: e.target.value})
+    
 
     const handleChangeConfirmPassword = (e:any) => {
         if(e.target.value === resetPasswordForm.password){
             dispatch(setError(''))
             setResetPasswordForm({...resetPasswordForm, disabled: false})
             setResetPasswordForm({...resetPasswordForm, confirmPassword: e.target.value})
+            // setEmail({...email, disabled: false})
         } else {
             dispatch(setError('Contraseñas no coinciden'))
             setResetPasswordForm({...resetPasswordForm, confirmPassword: e.target.value})
@@ -85,34 +74,4 @@ export default function resetPassword({data}:any) {
             </div>
         </div>
     )
-}
-
-export async function getStaticPaths() {
-    try {
-        const {data} = await axios.get('http://localhost:3001/api/user/getAll',
-        {headers: {api_key: apiKey}});
-
-        const paths = data.data.map((item:any) => ({params: {id: `${item.id}`}}))
-
-        return {
-            paths,
-            fallback: false
-        }
-    }catch(error) {
-        console.log(error)
-    }
-}
-
-export async function getStaticProps({params}:any) {
-    try {
-        const {data} = await axios.get(`http://localhost:3001/api/user/getById/${params.id}`, {headers: {api_key: apiKey}});
-
-        return {
-            props: {
-                data
-            }
-        } 
-    } catch (error) {
-        console.log(error);
-    }   
 }

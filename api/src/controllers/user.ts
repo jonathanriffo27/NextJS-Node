@@ -1,5 +1,5 @@
 import {
-    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel, validateGenericPasswordModel
 } from "../models/user";
 
 const getAllController = async (req: any, res: any) => {
@@ -38,7 +38,7 @@ const getByIdController = async (req: any, res: any) => {
 };
 
 const createController = async (req: any, res: any) => {
-    const {rut, name, paternalLastName, maternalLastName, email, phone, urlPhoto, grade} = req.body
+    const {rut, name, paternalLastName, maternalLastName, email, phone, urlPhoto, grade} = req.body;
     try {
         const response = await createModel(rut, name, paternalLastName, maternalLastName, email, phone, urlPhoto, grade);
         res.status(200).json({
@@ -106,8 +106,7 @@ const validateController = async (req: any, res: any) => {
                 data: null,
                 error: 'User not valid'
             })
-        }
-        
+        }     
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -118,43 +117,65 @@ const validateController = async (req: any, res: any) => {
 };
 
 const assaignPasswordController = async (req: any, res: any) => {
-    const {id, password} = req.body;
-    
-    try { 
+    const {id, password, genericPassword} = req.body;
+
+    if(genericPassword) {
+        const response = await validateGenericPasswordModel(id, genericPassword);
+        
+        if(!response.isValid) {
+            res.status(403).json({
+                success: false,
+                data: null,
+                error: 'Contraseña generica invalida'
+            })  
+        } 
+    }
+
+    try {
         const response = await assaignPasswordModel(id, password);
         res.status(200).json({
             success: true,
             data: response,
             error: null
-        })
+        })    
     } catch (error) {
         res.status(500).json({
             success: false,
-            data: null, 
+            data: null,
             error
         })
     }
-
 }
 
 const generatePasswordController = async (req: any, res: any) => {
-    const {id} = req.body;
-    
-    try { 
-        const response = await generatePasswordModel(id);
-        res.status(200).json({
-            success: true,
-            data: response,
-            error: null
-        })
+    const {email} = req.body;
+    let userId;
+    const userList = await getAllModel();
+
+    userList.map((item:any) => { if(item.email === email) userId = item.id })
+
+    try {
+        if(userId === undefined){
+            res.status(500).json({
+                success: false,
+                data: null, 
+                error: 'Email no valido'
+            })
+        } else {
+            await generatePasswordModel(userId);
+            res.status(200).json({
+                success: true,
+                data: userId,
+                error: null
+            })
+        }
     } catch (error) {
         res.status(500).json({
             success: false,
             data: null, 
-            error
+            error: 'Email no valido'
         })
     }
-
 }
 
 const getByEmailController = async (req: any, res: any) => {
@@ -174,7 +195,6 @@ const getByEmailController = async (req: any, res: any) => {
             error
         })
     }
-
 }
 
 export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController, generatePasswordController, getByEmailController} 
