@@ -38,7 +38,7 @@ const Login = () => {
       </div>
       <Button text='Ingresar' width='250px' onClick={handleClick} />
       <LinkUi text='Olvide mi contraseña' id='67e96deb-36c2-4f5b-a7bd-c0f96cd2aae1' />
-      <p className='mensaje text-red-500 text-md absolute bottom-[180px]'>{error}</p>
+      <p className='mensaje text-red-500 text-md absolute bottom-[180px] h-[30px]'>{error}</p>
     </div>
   ) 
 }

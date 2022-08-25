@@ -45,7 +45,7 @@ const sendEmail = () => {
                     // disabled={email.disabled} 
                     onClick={handleClick} />
             <div className='flex justify-center'>
-                <p className='text-red-500 text-md'>{error}</p>
+                <p className='text-red-500 text-md h-[30px]'>{error}</p>
             </div>
     </div>
   )

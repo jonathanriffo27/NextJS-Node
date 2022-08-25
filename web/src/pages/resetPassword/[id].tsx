@@ -22,7 +22,7 @@ export default function resetPassword() {
         }        
       }, [genericPassword])
 
-    const handleClick = async () => dispatch(assignPassword(genericPassword.id, resetPasswordForm.password))
+    const handleClick = async () => dispatch(assignPassword(genericPassword.id, resetPasswordForm.password, resetPasswordForm.generatedPassword))
     
     
     const handleChangeGeneratedPassword = (e:any) => setResetPasswordForm({...resetPasswordForm, generatedPassword: e.target.value})
@@ -70,7 +70,7 @@ export default function resetPassword() {
                     // disabled={resetPasswordForm.disabled} 
                     onClick={handleClick} />
             <div className='flex justify-center'>
-                <p className='mensaje text-red-500 text-md absolute bottom-[180px]'>{error}</p>
+                <p className='h-[30px] text-red-500 text-md absolute bottom-[180px]'>{error}</p>
             </div>
         </div>
     )

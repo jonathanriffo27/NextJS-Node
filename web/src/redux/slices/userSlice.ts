@@ -77,13 +77,14 @@ export const validateUser =
 };
 
 export const assignPassword =
-  (id: string, password: string) => (dispatch: any) => {    
+  (id: string, password: string, generatedPassword: string) => (dispatch: any) => {    
     axios.put('http://localhost:3001/api/user/assignPassword',
-      { id, password }, { headers: {api_key: apiKey}})
+      { id, password, generatedPassword }, { headers: {api_key: apiKey}})
       .then(() => {
         dispatch(setGenericPassword({state: false, id: '', success: true}))
+        dispatch(setError(''))
         console.log('Registro de nueva contrasela exitoso')})
-      .catch(() =>  dispatch(setError('Error en el proceso')));
+      .catch(() =>  dispatch(setError('Contraseña generica invalida')));
 };
 
 export const assignGenericPassword = (email:any) => (dispatch: any) => {
