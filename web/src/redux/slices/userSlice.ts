@@ -76,20 +76,28 @@ export const validateUser =
       .catch(() => dispatch(setError('Usuario o contraseña incorrecta')));
 };
 
-export const assignPassword =
-  (id: string, password: string, generatedPassword: string) => (dispatch: any) => {    
+export const assignPassword = (id: string, password: string) => (dispatch: any) => {    
     axios.put('http://localhost:3001/api/user/assignPassword',
-      { id, password, generatedPassword }, { headers: {api_key: apiKey}})
+      { id, password }, { headers: {api_key: apiKey}})
       .then(() => {
-        dispatch(setGenericPassword({state: false, id: '', success: true}))
         dispatch(setError(''))
-        console.log('Registro de nueva contrasela exitoso')})
-      .catch(() =>  dispatch(setError('Contraseña generica invalida')));
+        console.log('Registro de contrasela exitoso')})
+      .catch(() =>  dispatch(setError('Error')));
 };
 
 export const assignGenericPassword = (email:any) => (dispatch: any) => {
-    axios.post('http://localhost:3001/api/user/generatePassword',
+    axios.put('http://localhost:3001/api/user/assignGenericPassword',
       {email}, {headers: {api_key: apiKey}})
       .then(({data}) => dispatch(setGenericPassword({state: true, id: data.data})))
       .catch(() =>  dispatch(setError('Email no valido')));
+};
+
+export const assignNewPassword = (id: string, password: string, generatedPassword: string) => (dispatch: any) => {     
+  axios.put('http://localhost:3001/api/user/assignNewPassword',
+    { id, password, generatedPassword }, { headers: {api_key: apiKey}})
+    .then(() => {
+      dispatch(setGenericPassword({state: false, id: '', success: true}))
+      dispatch(setError(''))
+      console.log('Registro de nueva contrasela exitoso')})
+    .catch(() =>  dispatch(setError('Contraseña generica invalida')));
 };

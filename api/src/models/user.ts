@@ -71,6 +71,7 @@ const deleteModel = async (id: string) => {
 }
 
 const validateModel = async (email: string, password: string) => {
+    
     const result = await pool.query(`
         SELECT  rut,
                 name, 
@@ -112,16 +113,15 @@ const assaignPasswordModel = async (id: string, password: string) => {
     return result;
 }
 
-const generatePasswordModel = async (id: string) => {
+const assignGenericPasswordModel = async (id: string) => {
     const genericPassword = generatePassword();
-    console.log(genericPassword);
     const saltRounds = 10;
     const hash = await bcrypt.hash(genericPassword, saltRounds)
-    const result = await pool.query(`
+    await pool.query(`
     UPDATE public.user 
     SET  hash = $2  
     WHERE id = $1`, [id, hash]);
-    return result;
+    return genericPassword;
 }
 
 const getByEmailModel = async (email: string) => {
@@ -140,36 +140,4 @@ const getByEmailModel = async (email: string) => {
     return result.rows[0];
 }
 
-const validateGenericPasswordModel = async (id: string, password: string) => {
-    const result = await pool.query(`
-        SELECT  rut,
-                name, 
-                paternallastname, 
-                maternallastname, 
-                email, 
-                phone,
-                urlphoto,
-                grade,
-                hash
-        FROM public.user 
-        WHERE id = $1`, [id]);
-    const { rut,
-            name, 
-            paternallastname, 
-            maternallastname, 
-            phone,
-            urlphoto,
-            grade,
-            hash} = result.rows[0];   
-    const isValid = await bcrypt.compare(password, hash);
-    return {rut,
-            name, 
-            paternallastname, 
-            maternallastname, 
-            phone,
-            urlphoto,
-            grade,
-            isValid};
-} 
-
-export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel, validateGenericPasswordModel};
+export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, assignGenericPasswordModel, getByEmailModel};

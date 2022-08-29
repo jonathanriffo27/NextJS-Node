@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks'
 import { validateUser } from '../../../redux/slices/userSlice'
-import Link from 'next/link'
 
 import Logo from "../../ui/Logo"
 import InputText from "../../ui/InputText"

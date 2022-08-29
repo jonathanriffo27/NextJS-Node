@@ -1,5 +1,5 @@
 import {
-    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, generatePasswordModel, getByEmailModel, validateGenericPasswordModel
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, assignGenericPasswordModel, getByEmailModel
 } from "../models/user";
 
 const getAllController = async (req: any, res: any) => {
@@ -117,19 +117,7 @@ const validateController = async (req: any, res: any) => {
 };
 
 const assaignPasswordController = async (req: any, res: any) => {
-    const {id, password, genericPassword} = req.body;
-
-    if(genericPassword) {
-        const response = await validateGenericPasswordModel(id, genericPassword);
-        
-        if(!response.isValid) {
-            res.status(403).json({
-                success: false,
-                data: null,
-                error: 'Contraseña generica invalida'
-            })  
-        } 
-    }
+    const {id, password} = req.body;
 
     try {
         const response = await assaignPasswordModel(id, password);
@@ -137,7 +125,7 @@ const assaignPasswordController = async (req: any, res: any) => {
             success: true,
             data: response,
             error: null
-        })    
+        })
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -147,25 +135,57 @@ const assaignPasswordController = async (req: any, res: any) => {
     }
 }
 
-const generatePasswordController = async (req: any, res: any) => {
-    const {email} = req.body;
-    let userId;
-    const userList = await getAllModel();
-
-    userList.map((item:any) => { if(item.email === email) userId = item.id })
+const assignNewPasswordController = async (req: any, res: any) => {
+    const {id, password, generatedPassword} = req.body;
 
     try {
-        if(userId === undefined){
+        const userInfo = await getByIdModel(id);
+        const response = await validateModel(userInfo.email, generatedPassword);
+        
+        
+        if(!response.isValid) {
+            res.status(403).json({
+                success: false,
+                data: null,
+                error: 'Contraseña generica invalida'
+            })  
+        }else {
+            const response = await assaignPasswordModel(id, password);
+            res.status(200).json({
+                success: true,
+                data: response,
+                error: null
+            })  
+        } 
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            data: null,
+            error
+        })
+    }
+}
+
+
+
+const assignGenericPasswordController = async (req: any, res: any) => {
+    const {email} = req.body;
+    const userInfo = await getByEmailModel(email);
+
+    try {
+        if(userInfo === undefined){
             res.status(500).json({
                 success: false,
                 data: null, 
                 error: 'Email no valido'
             })
         } else {
-            await generatePasswordModel(userId);
+            const genericPassword = await assignGenericPasswordModel(userInfo.id);
+            console.log(genericPassword);
             res.status(200).json({
                 success: true,
-                data: userId,
+                data: userInfo.id,
                 error: null
             })
         }
@@ -197,4 +217,4 @@ const getByEmailController = async (req: any, res: any) => {
     }
 }
 
-export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController, generatePasswordController, getByEmailController} 
+export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController, assignGenericPasswordController, getByEmailController, assignNewPasswordController} 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { assignPassword, setError } from '../../redux/slices/userSlice';
+import { assignNewPassword, setError } from '../../redux/slices/userSlice';
 import { useRouter } from 'next/router';
 
 import InputText from '../../components/ui/InputText';
@@ -22,7 +22,7 @@ export default function resetPassword() {
         }        
       }, [genericPassword])
 
-    const handleClick = async () => dispatch(assignPassword(genericPassword.id, resetPasswordForm.password, resetPasswordForm.generatedPassword))
+    const handleClick = async () => dispatch(assignNewPassword(genericPassword.id, resetPasswordForm.password, resetPasswordForm.generatedPassword))
     
     
     const handleChangeGeneratedPassword = (e:any) => setResetPasswordForm({...resetPasswordForm, generatedPassword: e.target.value})
