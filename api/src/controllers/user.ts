@@ -1,6 +1,7 @@
 import {
-    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, assignGenericPasswordModel, getByEmailModel
+    getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assignPasswordModel, getByEmailModel
 } from "../models/user";
+import generatePassword from "../utils/generatePassword";
 
 const getAllController = async (req: any, res: any) => {
     try {
@@ -120,7 +121,7 @@ const assaignPasswordController = async (req: any, res: any) => {
     const {id, password} = req.body;
 
     try {
-        const response = await assaignPasswordModel(id, password);
+        const response = await assignPasswordModel(id, password);
         res.status(200).json({
             success: true,
             data: response,
@@ -150,7 +151,7 @@ const assignNewPasswordController = async (req: any, res: any) => {
                 error: 'Contraseña generica invalida'
             })  
         }else {
-            const response = await assaignPasswordModel(id, password);
+            const response = await assignPasswordModel(id, password);
             res.status(200).json({
                 success: true,
                 data: response,
@@ -181,7 +182,8 @@ const assignGenericPasswordController = async (req: any, res: any) => {
                 error: 'Email no valido'
             })
         } else {
-            const genericPassword = await assignGenericPasswordModel(userInfo.id);
+            const genericPassword = generatePassword();
+            await assignPasswordModel(userInfo.id, genericPassword);
             console.log(genericPassword);
             res.status(200).json({
                 success: true,

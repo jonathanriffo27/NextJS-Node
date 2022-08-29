@@ -1,6 +1,6 @@
 import pool from "../utils/database";
 import bcrypt from "bcrypt";
-import generatePassword from "../utils/generatePassword";
+
 
 const getAllModel = async () => {
     const result = await pool.query(`
@@ -103,7 +103,7 @@ const validateModel = async (email: string, password: string) => {
             isValid};
 } 
 
-const assaignPasswordModel = async (id: string, password: string) => {
+const assignPasswordModel = async (id: string, password: string) => {
     const saltRounds = 10;
     const hash = await bcrypt.hash(password, saltRounds)
     const result = await pool.query(`
@@ -111,17 +111,6 @@ const assaignPasswordModel = async (id: string, password: string) => {
     SET  hash = $2  
     WHERE id = $1`, [id, hash]);
     return result;
-}
-
-const assignGenericPasswordModel = async (id: string) => {
-    const genericPassword = generatePassword();
-    const saltRounds = 10;
-    const hash = await bcrypt.hash(genericPassword, saltRounds)
-    await pool.query(`
-    UPDATE public.user 
-    SET  hash = $2  
-    WHERE id = $1`, [id, hash]);
-    return genericPassword;
 }
 
 const getByEmailModel = async (email: string) => {
@@ -140,4 +129,4 @@ const getByEmailModel = async (email: string) => {
     return result.rows[0];
 }
 
-export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assaignPasswordModel, assignGenericPasswordModel, getByEmailModel};
+export {getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assignPasswordModel, getByEmailModel};
