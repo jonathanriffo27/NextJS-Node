@@ -1,7 +1,11 @@
+import axios from "axios";
+
 import {
     getAllModel, getByIdModel, createModel, updateModel, deleteModel, validateModel, assignPasswordModel, getByEmailModel
 } from "../models/user";
+import config from "../utils/config";
 import generatePassword from "../utils/generatePassword";
+import { generateToken } from "../utils/jwt";
 
 const getAllController = async (req: any, res: any) => {
     try {
@@ -96,9 +100,10 @@ const validateController = async (req: any, res: any) => {
     const response = await validateModel(email, password);  
     try {
         if(response.isValid){
+            const token = generateToken(config.apiKey);
             res.status(200).json({
                 success: true,
-                data: response,
+                data: {response, token},
                 error: null
             })
         }else {
@@ -143,21 +148,19 @@ const assignNewPasswordController = async (req: any, res: any) => {
         const userInfo = await getByIdModel(id);
         const response = await validateModel(userInfo.email, generatedPassword);
         
-        
-        if(!response.isValid) {
-            res.status(403).json({
-                success: false,
-                data: null,
-                error: 'Contraseña generica invalida'
-            })  
-        }else {
+        if(response.isValid) {
             const response = await assignPasswordModel(id, password);
             res.status(200).json({
                 success: true,
                 data: response,
                 error: null
-            })  
+            }) 
         } 
+        res.status(403).json({
+            success: false,
+            data: null,
+            error: 'Contraseña generica invalida'
+        }) 
         
     } catch (error) {
         res.status(500).json({
@@ -175,22 +178,31 @@ const assignGenericPasswordController = async (req: any, res: any) => {
     const userInfo = await getByEmailModel(email);
 
     try {
-        if(userInfo === undefined){
-            res.status(500).json({
-                success: false,
-                data: null, 
-                error: 'Email no valido'
-            })
-        } else {
+        if(userInfo !== undefined){
             const genericPassword = generatePassword();
             await assignPasswordModel(userInfo.id, genericPassword);
-            console.log(genericPassword);
+            const opt = {
+                url: `http://localhost:3002/api/email/send`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: { emailTo: 'email.api.next@gmail.com', subject: 'Constraseña generica' , emailHTML: genericPassword},
+            };
+            const data = await axios(opt)
+            .then(ok => ok)
+            .catch(error => error);
             res.status(200).json({
                 success: true,
                 data: userInfo.id,
                 error: null
             })
         }
+        // res.status(500).json({
+        //     success: false,
+        //     data: null, 
+        //     error: 'Email no valido'
+        // })
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -219,4 +231,21 @@ const getByEmailController = async (req: any, res: any) => {
     }
 }
 
-export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController, assignGenericPasswordController, getByEmailController, assignNewPasswordController} 
+const listController = async (req: any, res: any) => {
+    try {
+        const response = await getAllModel();
+        res.status(200).json({
+            success: true,
+            data: response,
+            error: null
+        })
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            data: null,
+            error
+        })
+    }
+};
+
+export {getAllController, getByIdController, createController, updateController, deleteController, validateController, assaignPasswordController, assignGenericPasswordController, getByEmailController, assignNewPasswordController, listController} 

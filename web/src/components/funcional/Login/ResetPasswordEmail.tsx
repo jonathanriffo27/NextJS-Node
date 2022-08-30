@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setError } from '../../redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setError } from "../../../redux/slices/userSlice";
 import { useRouter } from 'next/router'
 
-import InputText from "../../components/ui/InputText";
-import Button from "../../components/ui/Button";
-import { assignGenericPassword } from "../../redux/slices/userSlice";
+import InputText from "../../ui/InputText";
+import Button from "../../ui/Button";
+import { assignGenericPassword } from "../../../redux/slices/userSlice";
 
-const sendEmail = () => {
+const ResetPasswordEmail = () => {
     const router = useRouter()
     const dispatch = useAppDispatch();
     const inicialState = { value: '', disabled: true}
@@ -16,7 +16,7 @@ const sendEmail = () => {
 
     useEffect(() => {
         if(genericPassword.state) {
-            router.push(`/resetPassword/${genericPassword.id}`)
+            router.push(`/resetPassword/newPassword`)
         }        
       }, [genericPassword])
 
@@ -51,4 +51,4 @@ const sendEmail = () => {
   )
 }
 
-export default sendEmail;
+export default ResetPasswordEmail

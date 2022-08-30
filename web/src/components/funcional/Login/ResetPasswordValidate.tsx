@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { assignNewPassword, setError } from '../../redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { assignNewPassword, setError } from '../../../redux/slices/userSlice';
 import { useRouter } from 'next/router';
 
-import InputText from '../../components/ui/InputText';
-import Button from '../../components/ui/Button';
+import InputText from '../../../components/ui/InputText';
+import Button from '../../../components/ui/Button';
 
-export default function resetPassword() {
+const ResetPasswordValidate = () => {
     const router = useRouter()
     const dispatch = useAppDispatch(); 
     const initialtState = { generatedPassword: '',
@@ -22,7 +22,7 @@ export default function resetPassword() {
         }        
       }, [genericPassword])
 
-    const handleClick = async () => dispatch(assignNewPassword(genericPassword.id, resetPasswordForm.password, resetPasswordForm.generatedPassword))
+    const handleClick = async () => dispatch(assignNewPassword(genericPassword.userId, resetPasswordForm.password, resetPasswordForm.generatedPassword))
     
     
     const handleChangeGeneratedPassword = (e:any) => setResetPasswordForm({...resetPasswordForm, generatedPassword: e.target.value})
@@ -75,3 +75,5 @@ export default function resetPassword() {
         </div>
     )
 }
+
+export default ResetPasswordValidate

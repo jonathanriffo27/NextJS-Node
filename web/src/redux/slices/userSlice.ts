@@ -18,7 +18,7 @@ const initialState = {
   },
   error: '',
   genericPassword: {state: false, 
-                    id:'', 
+                    userId:'', 
                     success: true}
 };
 
@@ -53,6 +53,7 @@ export const validateUser =
     axios.post('http://localhost:3001/api/user/validate',
       { email, password }, { headers: {api_key: apiKey}})
       .then((response) => {
+        console.log(response);
         const { id,
                 rut,
                 name,
@@ -88,7 +89,7 @@ export const assignPassword = (id: string, password: string) => (dispatch: any) 
 export const assignGenericPassword = (email:any) => (dispatch: any) => {
     axios.put('http://localhost:3001/api/user/assignGenericPassword',
       {email}, {headers: {api_key: apiKey}})
-      .then(({data}) => dispatch(setGenericPassword({state: true, id: data.data})))
+      .then(({data}) => dispatch(setGenericPassword({state: true, userId: data.data})))
       .catch(() =>  dispatch(setError('Email no valido')));
 };
 
