@@ -1,7 +1,7 @@
 
-const Col = ({children, justify='justify-center', gap}:any) => {
+const Col = ({children, justify='justify-center', gap, className}:any) => {
   return (
-    <div className={`flex ${justify} items-center ${gap}`}>{children}</div>
+    <div className={`flex ${justify} items-center ${className} ${gap}`}>{children}</div>
   )
 }
 

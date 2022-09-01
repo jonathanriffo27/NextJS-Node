@@ -11,7 +11,7 @@ import {
   assignGenericPasswordController,
   getByEmailController,
   assignNewPasswordController,
-  listController
+  listController,
 } from "../controllers/user";
 
 import auth from "../middleware/auth";

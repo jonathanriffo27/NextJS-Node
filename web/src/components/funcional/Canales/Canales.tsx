@@ -26,18 +26,18 @@ const Canales = () => {
       <Body>
         <Menu showMenu={showMenu} setShowMenu={setShowMenu} />
         <Content>
-          <Row>
+          <Row borderBottom='yes'>
             <span className='text-[32px] font-bold'>Canales</span>
           </Row>
-          <Row height='h-[80px]' >
+          <Row height='h-[80px]' borderBottom='yes' >
             <InputText label='Buscar' width='439px' type='email' icon='buscar' />
           </Row>
-          <Row height='flex-grow gap-[5px]' >
+          <Row height='flex-grow gap-[5px]' borderBottom='yes' >
             <Canal text='Corredora de Seguros' />
-            <Canal text='tarjeta de Retail' />
+            <Canal text='Tarjeta de Retail' />
             <Canal text='Pagina Web' />
           </Row>
-          <Row grid='grid-cols-3'>
+          <Row display='grid place-content-center grid-cols-3'>
               <Col justify='justify-start'>
                 <span className='font-semibold'>Mostrando 1 al 3 de 3 canales</span>
               </Col>

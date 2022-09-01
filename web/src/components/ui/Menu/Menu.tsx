@@ -35,7 +35,7 @@ const Menu = ({showMenu, setShowMenu}:any) => {
         },
         {
           title: 'Usuarios',
-          path: ''
+          path: '/usuarios'
         }]  
     },
     {
