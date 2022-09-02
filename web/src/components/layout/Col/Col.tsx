@@ -1,8 +1,9 @@
-
-const Col = ({children, justify='justify-center', gap, className}:any) => {
+const Col = ({ children, justify = "justify-center", gap, className }: any) => {
   return (
-    <div className={`flex ${justify} items-center ${className} ${gap}`}>{children}</div>
-  )
-}
+    <div className={`flex ${justify} items-center ${className} ${gap}`}>
+      {children}
+    </div>
+  );
+};
 
-export default Col
+export default Col;
