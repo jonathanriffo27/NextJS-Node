@@ -1,19 +1,25 @@
 import { useState } from "react";
-import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
-import Icon from "../Icon";
 import Col from "../../layout/Col";
 import Row from "../../layout/Row";
-import Modal from "../Modal";
+import { EditButtons } from "../Canal/Canal";
+import ModalUserRegister from "../Modal/ModalUserRegister";
 
-const Table = ({ className }: any) => {
+const Table = ({
+  display,
+  borderBottom,
+  height = "h-full",
+  usersList,
+}: any) => {
   return (
-    <div className={`h-full py-[10px] w-[684px] m-auto`}>
-      <div className="flex flex-col gap-[2px] h-full rounded-[5px] border border-[#CCCCCC] p-[3px]">
-        <TableHeader />
-        <TableDetails />
+    <Row display={display} borderBottom={borderBottom}>
+      <div className={`${height} py-[10px] w-[684px] m-auto`}>
+        <div className="flex flex-col gap-[2px] h-full rounded-[5px] border border-[#CCCCCC] p-[3px]">
+          <TableHeader />
+          <TableDetails usersList={usersList} />
+        </div>
       </div>
-    </div>
+    </Row>
   );
 };
 
@@ -28,52 +34,41 @@ const TableHeader = () => {
   );
 };
 
-const TableDetails = () => {
+const TableDetails = ({ usersList }: any) => {
   const [modalEditOn, setModalEditOn] = useState(false);
   const handleClickEdit = () => setModalEditOn(!modalEditOn);
+
   return (
     <div className="flex flex-col gap-[2px]">
-      <Row height="h-[36px]" display="flex gap-[2px]">
-        <Col gap="gap-[2px]" className="bg-[#EEF2FF] h-[36px] w-[81px]">
-          1
-        </Col>
-        <Col
-          className="bg-[#EEF2FF] flex-grow px-[15px]"
-          justify="justify-between"
-        >
-          <span>Juan Fernandez</span>
-          <div className="flex gap-[6px] cursor-pointer">
-            <Icon
-              icon={faPencil}
-              color="#959595"
-              fontSize="20px"
-              onClick={handleClickEdit}
-            />
-            <Icon icon={faTrashCan} color="#959595" fontSize="20px" />
-          </div>
-        </Col>
-      </Row>
-      <Row height="h-[36px]" display="flex gap-[2px]">
-        <Col gap="gap-[2px]" className="bg-[#F8F8F8] h-[36px] w-[81px]">
-          2
-        </Col>
-        <Col
-          className="bg-[#F8F8F8] flex-grow px-[15px]"
-          justify="justify-between"
-        >
-          <span>Luisa Sanchez</span>
-          <div className="flex gap-[6px] cursor-pointer">
-            <Icon
-              icon={faPencil}
-              color="#959595"
-              fontSize="20px"
-              onClick={handleClickEdit}
-            />
-            <Icon icon={faTrashCan} color="#959595" fontSize="20px" />
-          </div>
-        </Col>
-      </Row>
-      {modalEditOn && <Modal onClick={handleClickEdit} boton="Modificar" />}
+      {usersList.map((item: any, index: any) => (
+        <Row height="h-[36px]" display="flex gap-[2px]" key={index}>
+          <Col
+            gap="gap-[2px]"
+            className={`${
+              index % 2 === 0 ? "bg-[#EEF2FF]" : "bg-[#F8F8F8]"
+            } h-[36px] w-[81px]`}
+          >
+            {index + 1}
+          </Col>
+          <Col
+            className={`${
+              index % 2 === 0 ? "bg-[#EEF2FF]" : "bg-[#F8F8F8]"
+            } flex-grow px-[15px]`}
+            display="flex justify-between items-center"
+          >
+            <span>{`${item.name} ${item.paternallastname}`}</span>
+            <EditButtons onClick={handleClickEdit} />
+          </Col>
+        </Row>
+      ))}
+      {modalEditOn && (
+        <ModalUserRegister
+          onClick={handleClickEdit}
+          title="Editar Usuario"
+          textBoton="Editar"
+          usersList={usersList}
+        />
+      )}
     </div>
   );
 };

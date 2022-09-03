@@ -46,6 +46,23 @@ export const { setUserList, setUser, resetUser, setError, setGenericPassword } =
 
 export default userSlice.reducer;
 
+export const listUsers = () => (dispatch: any) => {
+  axios
+    .get("http://localhost:3001/api/user/list", {
+      headers: {
+        api_key: apiKey,
+        token:
+          "eyJhbGciOiJIUzI1NiJ9.SG9sYQ.3SYpk-AXAjCf8U7EW3YduEANlgigWWheaWj_dutPlqQ",
+      },
+    })
+    .then((response) => {
+      dispatch(setUserList(response.data.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 export const validateUser =
   (email: string, password: string) => (dispatch: any) => {
     axios
@@ -55,7 +72,6 @@ export const validateUser =
         { headers: { api_key: apiKey } }
       )
       .then((response) => {
-        console.log(response);
         const {
           id,
           rut,
@@ -128,3 +144,35 @@ export const assignNewPassword =
       })
       .catch(() => dispatch(setError("Contraseña generica invalida")));
   };
+
+export const createUser = (userInfo: any) => (dispatch: any) => {
+  const {
+    rut,
+    name,
+    paternalLastName,
+    maternalLastName,
+    email,
+    phone,
+    urlphoto,
+    grade,
+  } = userInfo;
+  axios
+    .post(
+      "http://localhost:3001/api/user/create",
+      {
+        rut,
+        name,
+        paternalLastName,
+        maternalLastName,
+        email,
+        phone,
+        urlphoto,
+        grade,
+      },
+      { headers: { api_key: apiKey } }
+    )
+    .then(() => {
+      dispatch(listUsers());
+    })
+    .catch(() => dispatch(setError("Error al crear usuario")));
+};
