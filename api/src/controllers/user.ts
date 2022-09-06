@@ -68,7 +68,6 @@ const createController = async (req: any, res: any) => {
       maternalLastName,
       email,
       phone,
-      urlPhoto,
       grade
     );
     res.status(200).json({
@@ -87,15 +86,8 @@ const createController = async (req: any, res: any) => {
 
 const updateController = async (req: any, res: any) => {
   const { id } = req.params;
-  const {
-    rut,
-    name,
-    paternalLastName,
-    maternalLastName,
-    email,
-    phone,
-    isActive,
-  } = req.body;
+  const { rut, name, paternalLastName, maternalLastName, email, phone, grade } =
+    req.body;
   try {
     const response = await updateModel(
       id,
@@ -105,7 +97,7 @@ const updateController = async (req: any, res: any) => {
       maternalLastName,
       email,
       phone,
-      isActive
+      grade
     );
     res.status(200).json({
       success: true,

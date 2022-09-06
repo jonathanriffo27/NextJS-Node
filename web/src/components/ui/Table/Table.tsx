@@ -1,22 +1,20 @@
-import { useState } from "react";
-
 import Col from "../../layout/Col";
 import Row from "../../layout/Row";
 import { EditButtons } from "../Canal/Canal";
-import ModalUserRegister from "../Modal/ModalUserRegister";
 
 const Table = ({
   display,
   borderBottom,
   height = "h-full",
   usersList,
+  handleEdit,
 }: any) => {
   return (
     <Row display={display} borderBottom={borderBottom}>
       <div className={`${height} py-[10px] w-[684px] m-auto`}>
         <div className="flex flex-col gap-[2px] h-full rounded-[5px] border border-[#CCCCCC] p-[3px]">
           <TableHeader />
-          <TableDetails usersList={usersList} />
+          <TableDetails usersList={usersList} handleEdit={handleEdit} />
         </div>
       </div>
     </Row>
@@ -34,10 +32,7 @@ const TableHeader = () => {
   );
 };
 
-const TableDetails = ({ usersList }: any) => {
-  const [modalEditOn, setModalEditOn] = useState(false);
-  const handleClickEdit = () => setModalEditOn(!modalEditOn);
-
+const TableDetails = ({ usersList, handleEdit }: any) => {
   return (
     <div className="flex flex-col gap-[2px]">
       {usersList.map((item: any, index: any) => (
@@ -57,18 +52,10 @@ const TableDetails = ({ usersList }: any) => {
             display="flex justify-between items-center"
           >
             <span>{`${item.name} ${item.paternallastname}`}</span>
-            <EditButtons onClick={handleClickEdit} />
+            <EditButtons onClick={() => handleEdit(item)} />
           </Col>
         </Row>
       ))}
-      {modalEditOn && (
-        <ModalUserRegister
-          onClick={handleClickEdit}
-          title="Editar Usuario"
-          textBoton="Editar"
-          usersList={usersList}
-        />
-      )}
     </div>
   );
 };

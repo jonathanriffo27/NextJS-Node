@@ -1,11 +1,11 @@
-import { useAppSelector } from '../../../redux/hooks';
+import { useAppSelector } from "../../../redux/hooks";
 
-import Login from '../Login'
-import Main from '../Main'
+import Login from "../Login";
+import Main from "../Main";
 
-const Switch = () => {
-  const {user} = useAppSelector((state) => state.userSlice);
-  return  user.email !== "" ? <Main /> : <Login />;
-}
+const Switch = ({ children }: any) => {
+  const { user } = useAppSelector((state) => state.userSlice);
+  return user.email !== "" ? <Main>{children}</Main> : <Login />;
+};
 
-export default Switch
+export default Switch;

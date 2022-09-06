@@ -10,6 +10,7 @@ const initialState = {
     name: "",
     paternalLastName: "",
     maternalLastName: "",
+    //adress, region, district
     email: "",
     phone: "",
     urlPhoto: "",
@@ -167,6 +168,37 @@ export const createUser = (userInfo: any) => (dispatch: any) => {
         email,
         phone,
         urlphoto,
+        grade,
+      },
+      { headers: { api_key: apiKey } }
+    )
+    .then(() => {
+      dispatch(listUsers());
+    })
+    .catch(() => dispatch(setError("Error al crear usuario")));
+};
+
+export const updateUser = (userInfo: any) => (dispatch: any) => {
+  const {
+    id,
+    rut,
+    name,
+    paternalLastName,
+    maternalLastName,
+    email,
+    phone,
+    grade,
+  } = userInfo;
+  axios
+    .put(
+      `http://localhost:3001/api/user/update/${id}`,
+      {
+        rut,
+        name,
+        paternalLastName,
+        maternalLastName,
+        email,
+        phone,
         grade,
       },
       { headers: { api_key: apiKey } }
