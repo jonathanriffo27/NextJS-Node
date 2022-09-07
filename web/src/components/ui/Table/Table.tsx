@@ -8,13 +8,18 @@ const Table = ({
   height = "h-full",
   usersList,
   handleEdit,
+  handleDelete,
 }: any) => {
   return (
     <Row display={display} borderBottom={borderBottom}>
       <div className={`${height} py-[10px] w-[684px] m-auto`}>
         <div className="flex flex-col gap-[2px] h-full rounded-[5px] border border-[#CCCCCC] p-[3px]">
           <TableHeader />
-          <TableDetails usersList={usersList} handleEdit={handleEdit} />
+          <TableDetails
+            usersList={usersList}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
         </div>
       </div>
     </Row>
@@ -32,7 +37,7 @@ const TableHeader = () => {
   );
 };
 
-const TableDetails = ({ usersList, handleEdit }: any) => {
+const TableDetails = ({ usersList, handleEdit, handleDelete }: any) => {
   return (
     <div className="flex flex-col gap-[2px]">
       {usersList.map((item: any, index: any) => (
@@ -52,7 +57,10 @@ const TableDetails = ({ usersList, handleEdit }: any) => {
             display="flex justify-between items-center"
           >
             <span>{`${item.name} ${item.paternallastname}`}</span>
-            <EditButtons onClick={() => handleEdit(item)} />
+            <EditButtons
+              handleEdit={() => handleEdit(item)}
+              handleDelete={() => handleDelete(item)}
+            />
           </Col>
         </Row>
       ))}

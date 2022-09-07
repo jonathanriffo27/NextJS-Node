@@ -1,9 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  createUser,
-  updateUser,
-  setUser,
-} from "../../../redux/slices/userSlice";
+import { setUser } from "../../../redux/slices/userSlice";
 
 import { UserPic } from "../../funcional/User";
 import Button from "../Button";
@@ -28,15 +24,6 @@ const UserForm = ({ onClick, textBoton, userInfo }: any) => {
   const onGradeChange = (e: any) =>
     dispatch(setUser({ ...user, grade: e.target.value }));
 
-  const handleClick = () => {
-    {
-      userInfo.id === ""
-        ? dispatch(createUser(user))
-        : dispatch(updateUser(user));
-    }
-    onClick();
-  };
-
   return (
     <div className="flex flex-col items-center gap-[30px]">
       <div className="flex">
@@ -46,57 +33,71 @@ const UserForm = ({ onClick, textBoton, userInfo }: any) => {
             width="146px"
             label="Rut"
             onChange={onRutChange}
-            value={userInfo.id === "" ? user.rut : userInfo.rut}
+            value={user.rut}
           />
           <InputText
             width="439px"
             label="Nombres"
             onChange={onNameChange}
-            value={userInfo.id === "" ? user.name : userInfo.name}
+            value={user.name}
           />
           <div className="flex flex-wrap gap-[5px]">
             <InputText
               width="217px"
               label="Apellido paterno"
               onChange={onPaternalChange}
-              value={
-                userInfo.id === ""
-                  ? user.paternalLastName
-                  : userInfo.paternalLastName
-              }
+              value={user.paternalLastName}
             />
             <InputText
               width="217px"
               label="Apellido materno"
               onChange={onMaternalChange}
-              value={
-                userInfo.id === ""
-                  ? user.maternalLastName
-                  : userInfo.maternalLastName
-              }
+              value={user.maternalLastName}
             />
             <InputText
               width="217px"
               label="Correo electronico"
               onChange={onEmailChange}
-              value={userInfo.id === "" ? user.email : userInfo.email}
+              value={user.email}
             />
             <InputText
               width="217px"
               label="Telefono"
               onChange={onPhoneChange}
-              value={userInfo.id === "" ? user.phone : userInfo.phone}
+              value={user.phone}
             />
           </div>
           <InputText
             width="439px"
             label="Cargo"
             onChange={onGradeChange}
-            value={userInfo.id === "" ? user.grade : userInfo.grade}
+            value={user.grade}
           />
+          <InputText
+            width="439px"
+            label="Direccion"
+            onChange={onGradeChange}
+            value={user.grade}
+          />
+          <div className="flex gap-[5px] text-[#555555]">
+            <select
+              name="Region"
+              id=""
+              className="w-[217px] h-[60px] border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white"
+            >
+              <option value="Region">Region</option>
+            </select>
+            <select
+              name=""
+              id=""
+              className="w-[217px] bg-white border border-[#CCCCCC] rounded-[5px] p-[15px] "
+            >
+              <option value="">Comuna</option>
+            </select>
+          </div>
         </div>
       </div>
-      <Button width="250px" text={textBoton} onClick={handleClick} />
+      <Button width="250px" text={textBoton} onClick={onClick} />
     </div>
   );
 };

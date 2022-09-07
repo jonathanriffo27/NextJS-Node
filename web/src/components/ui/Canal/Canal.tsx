@@ -10,11 +10,21 @@ const Canal = ({ text }: any) => {
   );
 };
 
-const EditButtons = ({ onClick }: any) => {
+const EditButtons = ({ handleEdit, handleDelete }: any) => {
   return (
     <div className="flex gap-[6px] cursor-pointer">
-      <Icon icon={faPencil} color="#959595" fontSize="20px" onClick={onClick} />
-      <Icon icon={faTrashCan} color="#959595" fontSize="20px" />
+      <Icon
+        icon={faPencil}
+        color="#959595"
+        fontSize="20px"
+        onClick={handleEdit}
+      />
+      <Icon
+        icon={faTrashCan}
+        color="#959595"
+        fontSize="20px"
+        onClick={handleDelete}
+      />
     </div>
   );
 };

@@ -18,15 +18,15 @@ export const uiSlice = createSlice({
   name: "userUi",
   initialState,
   reducers: {
-    setUser: (state: any, action: PayloadAction<any>) => {
+    setUserUi: (state: any, action: PayloadAction<any>) => {
       state.user = action.payload;
     },
-    resetUser: (state: any) => {
+    resetUserUi: (state: any) => {
       state.user = initialState.user;
     },
   },
 });
 
-export const { setUser, resetUser } = uiSlice.actions;
+export const { setUserUi, resetUserUi } = uiSlice.actions;
 
 export default uiSlice.reducer;

@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { setUserUi } from "./uiSlice";
+
 import apiKey from "../../utils/config";
 
 const initialState = {
@@ -85,7 +87,7 @@ export const validateUser =
           grade,
         } = response.data.data.response;
         dispatch(
-          setUser({
+          setUserUi({
             id,
             rut,
             name,
@@ -203,6 +205,17 @@ export const updateUser = (userInfo: any) => (dispatch: any) => {
       },
       { headers: { api_key: apiKey } }
     )
+    .then(() => {
+      dispatch(listUsers());
+    })
+    .catch(() => dispatch(setError("Error al crear usuario")));
+};
+
+export const deleteUser = (id: any) => (dispatch: any) => {
+  axios
+    .delete(`http://localhost:3001/api/user/delete/${id}`, {
+      headers: { api_key: apiKey },
+    })
     .then(() => {
       dispatch(listUsers());
     })
