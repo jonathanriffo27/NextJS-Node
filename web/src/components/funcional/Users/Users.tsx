@@ -51,6 +51,9 @@ const Users = () => {
         name: row.name,
         paternalLastName: row.paternallastname,
         maternalLastName: row.maternallastname,
+        adress: row.adress,
+        region: row.region,
+        district: row.district,
         email: row.email,
         phone: row.phone,
         urlPhoto: "",
@@ -70,7 +73,6 @@ const Users = () => {
         maternalLastName: row.maternallastname,
         email: row.email,
         phone: row.phone,
-        urlPhoto: "",
         grade: row.grade,
       })
     );

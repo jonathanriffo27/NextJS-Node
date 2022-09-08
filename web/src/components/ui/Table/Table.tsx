@@ -38,6 +38,8 @@ const TableHeader = () => {
 };
 
 const TableDetails = ({ usersList, handleEdit, handleDelete }: any) => {
+  console.log(usersList);
+
   return (
     <div className="flex flex-col gap-[2px]">
       {usersList.map((item: any, index: any) => (

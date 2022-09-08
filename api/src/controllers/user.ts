@@ -55,6 +55,9 @@ const createController = async (req: any, res: any) => {
     name,
     paternalLastName,
     maternalLastName,
+    adress,
+    region,
+    district,
     email,
     phone,
     urlPhoto,
@@ -66,8 +69,12 @@ const createController = async (req: any, res: any) => {
       name,
       paternalLastName,
       maternalLastName,
+      adress,
+      region,
+      district,
       email,
       phone,
+      urlPhoto,
       grade
     );
     res.status(200).json({
@@ -86,8 +93,19 @@ const createController = async (req: any, res: any) => {
 
 const updateController = async (req: any, res: any) => {
   const { id } = req.params;
-  const { rut, name, paternalLastName, maternalLastName, email, phone, grade } =
-    req.body;
+  const {
+    rut,
+    name,
+    paternalLastName,
+    maternalLastName,
+    adress,
+    region,
+    district,
+    email,
+    phone,
+    urlPhoto,
+    grade,
+  } = req.body;
   try {
     const response = await updateModel(
       id,
@@ -95,10 +113,16 @@ const updateController = async (req: any, res: any) => {
       name,
       paternalLastName,
       maternalLastName,
+      adress,
+      region,
+      district,
       email,
       phone,
+      urlPhoto,
       grade
     );
+    console.log({ datos: response });
+
     res.status(200).json({
       success: true,
       data: response,

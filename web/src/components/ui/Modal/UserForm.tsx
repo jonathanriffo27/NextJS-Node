@@ -15,18 +15,7 @@ const UserForm = ({
 }: any) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.userSlice);
-  const [adress, setAdress] = useState({
-    region: "",
-    district: "",
-  });
 
-  const onRegionChange = (e: any) => {
-    setAdress({ ...adress, region: e.target.value });
-    handleDistrict(e.target.value);
-  };
-  const onDistrictChange = (e: any) => {
-    setAdress({ ...adress, district: e.target.value });
-  };
   const onRutChange = (e: any) =>
     dispatch(setUser({ ...user, rut: e.target.value }));
   const onNameChange = (e: any) =>
@@ -41,6 +30,15 @@ const UserForm = ({
     dispatch(setUser({ ...user, phone: e.target.value }));
   const onGradeChange = (e: any) =>
     dispatch(setUser({ ...user, grade: e.target.value }));
+  const onAdressChange = (e: any) =>
+    dispatch(setUser({ ...user, adress: e.target.value }));
+  const onRegionChange = (e: any) => {
+    dispatch(setUser({ ...user, region: e.target.value }));
+    handleDistrict(e.target.value);
+  };
+  const onDistrictChange = (e: any) => {
+    dispatch(setUser({ ...user, district: e.target.value }));
+  };
 
   return (
     <div className="flex flex-col items-center gap-[30px]">
@@ -94,8 +92,8 @@ const UserForm = ({
           <InputText
             width="439px"
             label="Direccion"
-            onChange={onGradeChange}
-            value={user.grade}
+            onChange={onAdressChange}
+            value={user.adress}
           />
           <div className="flex gap-[5px] text-[#555555] h-[50px]">
             <select
@@ -103,11 +101,9 @@ const UserForm = ({
               id="region"
               className="w-[217px] border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white"
               onChange={onRegionChange}
-              value={adress.region}
+              value={user.region}
             >
-              <option value="" disabled>
-                Region
-              </option>
+              <option value="">Region</option>
               {listRegions.map((item: any) => (
                 <option value={item.id} key={item.id}>
                   {item.name}
@@ -119,11 +115,9 @@ const UserForm = ({
               id="district"
               className="w-[217px] bg-white border border-[#CCCCCC] rounded-[5px] p-[15px] "
               onChange={onDistrictChange}
-              value={adress.district}
+              value={user.district}
             >
-              <option value="" disabled>
-                Comuna
-              </option>
+              <option value="">Comuna</option>
               {district.map((item: any) => (
                 <option value={item.id} key={item.id}>
                   {item.name}

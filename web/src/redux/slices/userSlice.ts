@@ -12,7 +12,9 @@ const initialState = {
     name: "",
     paternalLastName: "",
     maternalLastName: "",
-    //adress, region, district
+    adress: "",
+    region: "",
+    district: "",
     email: "",
     phone: "",
     urlPhoto: "",
@@ -81,6 +83,9 @@ export const validateUser =
           name,
           paternallastname,
           maternallastname,
+          adress,
+          region,
+          district,
           email,
           phone,
           urlphoto,
@@ -93,6 +98,9 @@ export const validateUser =
             name,
             paternalLastName: paternallastname,
             maternalLastName: maternallastname,
+            adress,
+            region,
+            district,
             email,
             phone,
             urlPhoto: urlphoto,
@@ -154,11 +162,15 @@ export const createUser = (userInfo: any) => (dispatch: any) => {
     name,
     paternalLastName,
     maternalLastName,
+    adress,
+    region,
+    district,
     email,
     phone,
-    urlphoto,
+    urlPhoto,
     grade,
   } = userInfo;
+
   axios
     .post(
       "http://localhost:3001/api/user/create",
@@ -167,9 +179,12 @@ export const createUser = (userInfo: any) => (dispatch: any) => {
         name,
         paternalLastName,
         maternalLastName,
+        adress,
+        region,
+        district,
         email,
         phone,
-        urlphoto,
+        urlPhoto,
         grade,
       },
       { headers: { api_key: apiKey } }
@@ -187,10 +202,15 @@ export const updateUser = (userInfo: any) => (dispatch: any) => {
     name,
     paternalLastName,
     maternalLastName,
+    adress,
+    region,
+    district,
     email,
     phone,
+    urlPhoto,
     grade,
   } = userInfo;
+
   axios
     .put(
       `http://localhost:3001/api/user/update/${id}`,
@@ -199,8 +219,12 @@ export const updateUser = (userInfo: any) => (dispatch: any) => {
         name,
         paternalLastName,
         maternalLastName,
+        adress,
+        region,
+        district,
         email,
         phone,
+        urlPhoto,
         grade,
       },
       { headers: { api_key: apiKey } }

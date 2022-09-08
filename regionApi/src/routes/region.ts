@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { regionController, districtController } from "../controllers/region";
+import {
+  getAllRegionController,
+  getAllDistrictController,
+} from "../controllers/region";
 
 const RegionRouter = Router();
 
-RegionRouter.get("/region/getAll", regionController);
-RegionRouter.get("/district/getAll", districtController);
+RegionRouter.get("/region/getAll", getAllRegionController);
+RegionRouter.get("/district/getAll", getAllDistrictController);
 
 export default RegionRouter;

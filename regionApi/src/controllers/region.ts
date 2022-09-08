@@ -1,8 +1,8 @@
-import { regionModel, districtModel } from "../models/region";
+import { getAllRegionModel, getAllDistrictModel } from "../models/region";
 
-const regionController = async (req: any, res: any) => {
+const getAllRegionController = async (req: any, res: any) => {
   try {
-    const response = await regionModel();
+    const response = await getAllRegionModel();
     res.status(200).json({
       success: true,
       data: response,
@@ -17,9 +17,9 @@ const regionController = async (req: any, res: any) => {
   }
 };
 
-const districtController = async (req: any, res: any) => {
+const getAllDistrictController = async (req: any, res: any) => {
   try {
-    const response = await districtModel();
+    const response = await getAllDistrictModel();
     res.status(200).json({
       success: true,
       data: response,
@@ -34,4 +34,4 @@ const districtController = async (req: any, res: any) => {
   }
 };
 
-export { regionController, districtController };
+export { getAllRegionController, getAllDistrictController };

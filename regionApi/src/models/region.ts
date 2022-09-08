@@ -1,6 +1,6 @@
 import pool from "../utils/database";
 
-const regionModel = async () => {
+const getAllRegionModel = async () => {
   try {
     const result = await pool.query(`
         SELECT  id,
@@ -13,10 +13,11 @@ const regionModel = async () => {
   }
 };
 
-const districtModel = async () => {
+const getAllDistrictModel = async () => {
   try {
     const result = await pool.query(`
-        SELECT  regionid,
+        SELECT  id,
+                regionid,
                 name
         FROM district`);
     return result.rows;
@@ -25,4 +26,4 @@ const districtModel = async () => {
   }
 };
 
-export { regionModel, districtModel };
+export { getAllRegionModel, getAllDistrictModel };

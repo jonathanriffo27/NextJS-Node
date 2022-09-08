@@ -33,8 +33,6 @@ export const listDistrict = () => (dispatch: any) => {
       },
     })
     .then((response) => {
-      console.log(response);
-
       dispatch(setDistrictList(response.data.data));
     })
     .catch((error) => {
