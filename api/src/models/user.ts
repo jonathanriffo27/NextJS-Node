@@ -9,8 +9,8 @@ const getAllModel = async () => {
           U.paternalLastName,
           U.maternalLastName,
           U.adress,
-          R.name,
-          D.name,
+          R.name AS region_name,
+          D.name AS district_name,
           U.email,
           U.phone,
           U.urlPhoto,
@@ -19,8 +19,6 @@ const getAllModel = async () => {
   LEFT OUTER JOIN public.region R ON U.region_id = R.id 
   LEFT OUTER JOIN public.district D ON U.district_id = D.id 
   WHERE isActive = true`);
-  console.log(result.rows);
-
   return result.rows;
 };
 
