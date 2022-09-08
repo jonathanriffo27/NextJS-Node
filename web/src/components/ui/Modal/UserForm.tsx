@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { setUser } from "../../../redux/slices/userSlice";
 
@@ -5,10 +6,27 @@ import { UserPic } from "../../funcional/User";
 import Button from "../Button";
 import InputText from "../InputText";
 
-const UserForm = ({ onClick, textBoton, userInfo }: any) => {
+const UserForm = ({
+  onClick,
+  textBoton,
+  listRegions,
+  handleDistrict,
+  district,
+}: any) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.userSlice);
+  const [adress, setAdress] = useState({
+    region: "",
+    district: "",
+  });
 
+  const onRegionChange = (e: any) => {
+    setAdress({ ...adress, region: e.target.value });
+    handleDistrict(e.target.value);
+  };
+  const onDistrictChange = (e: any) => {
+    setAdress({ ...adress, district: e.target.value });
+  };
   const onRutChange = (e: any) =>
     dispatch(setUser({ ...user, rut: e.target.value }));
   const onNameChange = (e: any) =>
@@ -26,7 +44,7 @@ const UserForm = ({ onClick, textBoton, userInfo }: any) => {
 
   return (
     <div className="flex flex-col items-center gap-[30px]">
-      <div className="flex">
+      <div className="flex gap-[30px]">
         <UserPic width="215px" height="215px" />
         <div className="flex flex-col gap-[5px] w-[439px]">
           <InputText
@@ -79,20 +97,38 @@ const UserForm = ({ onClick, textBoton, userInfo }: any) => {
             onChange={onGradeChange}
             value={user.grade}
           />
-          <div className="flex gap-[5px] text-[#555555]">
+          <div className="flex gap-[5px] text-[#555555] h-[50px]">
             <select
-              name="Region"
-              id=""
-              className="w-[217px] h-[60px] border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white"
+              name=""
+              id="region"
+              className="w-[217px] border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white"
+              onChange={onRegionChange}
+              value={adress.region}
             >
-              <option value="Region">Region</option>
+              <option value="" disabled>
+                Region
+              </option>
+              {listRegions.map((item: any) => (
+                <option value={item.id} key={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
             <select
               name=""
-              id=""
+              id="district"
               className="w-[217px] bg-white border border-[#CCCCCC] rounded-[5px] p-[15px] "
+              onChange={onDistrictChange}
+              value={adress.district}
             >
-              <option value="">Comuna</option>
+              <option value="" disabled>
+                Comuna
+              </option>
+              {district.map((item: any) => (
+                <option value={item.id} key={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>

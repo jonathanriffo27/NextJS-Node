@@ -8,6 +8,8 @@ import {
   createUser,
   updateUser,
 } from "../../../redux/slices/userSlice";
+import { listRegion } from "../../../redux/slices/regionSlice";
+import { listDistrict, setDistrict } from "../../../redux/slices/districtSlice";
 
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
@@ -19,6 +21,10 @@ import Button from "../../ui/Button";
 
 const Users = () => {
   const { list, user } = useAppSelector((state) => state.userSlice);
+  const { listRegions } = useAppSelector((state) => state.regionSlice);
+  const { districtList, district } = useAppSelector(
+    (state) => state.districtSlice
+  );
   const dispatch = useAppDispatch();
   const [modal, setModal] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -71,8 +77,15 @@ const Users = () => {
     setModalDelete(!modalDelete);
   };
 
+  const handleDistrict = (id: string) => {
+    const comunas = districtList.filter((item: any) => item.regionid === id);
+    dispatch(setDistrict(comunas));
+  };
+
   useEffect(() => {
     dispatch(listUsers());
+    dispatch(listRegion());
+    dispatch(listDistrict());
   }, []);
 
   return (
@@ -92,13 +105,19 @@ const Users = () => {
         handleDelete={handleDelete}
       />
       <Buttons
-        onClick={handleClickModal}
+        onClick={() => setModal(!modal)}
         display="flex justify-between items-center"
         text={`${list.length} registros`}
       />
       {modal && (
         <Modal title="Nuevo Usuario" onClick={() => setModal(!modal)}>
-          <UserForm textBoton="Registrar" onClick={handleClickModal} />
+          <UserForm
+            textBoton="Registrar"
+            onClick={handleClickModal}
+            listRegions={listRegions}
+            handleDistrict={handleDistrict}
+            district={district}
+          />
         </Modal>
       )}
       {modalDelete && (

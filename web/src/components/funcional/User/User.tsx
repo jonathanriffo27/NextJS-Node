@@ -31,8 +31,8 @@ const UserInfo = ({ nombre, cargo }: any) => {
 };
 
 const UserPic = ({ width, height }: any) => {
-  const { user } = useAppSelector((state) => state.userSlice);
-  
+  const { user } = useAppSelector((state) => state.uiSlice);
+
   return (
     <div
       style={{

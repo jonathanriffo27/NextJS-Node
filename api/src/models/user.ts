@@ -99,42 +99,46 @@ const deleteModel = async (id: string) => {
 };
 
 const validateModel = async (email: string, password: string) => {
-  const result = await pool.query(
-    `
-        SELECT  rut,
-                name, 
-                paternallastname, 
-                maternallastname, 
-                email, 
-                phone,
-                urlphoto,
-                grade,
-                hash
-        FROM public.user 
-        WHERE email = $1`,
-    [email]
-  );
-  const {
-    rut,
-    name,
-    paternallastname,
-    maternallastname,
-    phone,
-    urlphoto,
-    grade,
-    hash,
-  } = result.rows[0];
-  const isValid = await bcrypt.compare(password, hash);
-  return {
-    rut,
-    name,
-    paternallastname,
-    maternallastname,
-    phone,
-    urlphoto,
-    grade,
-    isValid,
-  };
+  try {
+    const result = await pool.query(
+      `
+          SELECT  rut,
+                  name, 
+                  paternallastname, 
+                  maternallastname, 
+                  email, 
+                  phone,
+                  urlphoto,
+                  grade,
+                  hash
+          FROM public.user 
+          WHERE email = $1`,
+      [email]
+    );
+    const {
+      rut,
+      name,
+      paternallastname,
+      maternallastname,
+      phone,
+      urlphoto,
+      grade,
+      hash,
+    } = result.rows[0];
+    const isValid = await bcrypt.compare(password, hash);
+    return {
+      rut,
+      name,
+      paternallastname,
+      maternallastname,
+      phone,
+      urlphoto,
+      grade,
+      isValid,
+    };
+  } catch (error) {
+    throw new Error();
+  }
 };
 
 const assignPasswordModel = async (id: string, password: string) => {
