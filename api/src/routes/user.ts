@@ -11,7 +11,6 @@ import {
   assignGenericPasswordController,
   getByEmailController,
   assignNewPasswordController,
-  listController,
 } from "../controllers/user";
 
 import auth from "../middleware/auth";
@@ -25,7 +24,7 @@ UserRouter.post("/create", auth, createController);
 UserRouter.put("/update/:id", auth, updateController);
 UserRouter.delete("/delete/:id", auth, deleteController);
 UserRouter.post("/validate", auth, validateController);
-UserRouter.get("/list", auth, tokenDecrypt, listController);
+UserRouter.get("/list", auth, tokenDecrypt, getAllController);
 UserRouter.put("/assignPassword", auth, assaignPasswordController);
 UserRouter.put("/assignGenericPassword", auth, assignGenericPasswordController);
 UserRouter.post("/getByEmail", auth, getByEmailController);

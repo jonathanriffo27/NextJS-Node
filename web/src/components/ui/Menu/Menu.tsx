@@ -44,6 +44,10 @@ const Menu = ({ showMenu, setShowMenu }: any) => {
           title: "Usuarios",
           path: "/usuarios",
         },
+        {
+          title: "Cagos",
+          path: "/cargos",
+        },
       ],
     },
     {
@@ -118,7 +122,7 @@ const MenuOption = ({
       </button>
       {subMenu && (
         <div
-          style={!showSubMenu ? { height: "0" } : { height: height * 40 + 20 }}
+          style={!showSubMenu ? { height: "0" } : { height: height * 40 }}
           className={`bg-black/50 w-[275px] text-white duration-300`}
         >
           {subMenu.map((item: any): any => (
@@ -156,7 +160,7 @@ const Dropdown = ({
     setShowSubMenu(!showSubMenu);
   };
   return (
-    <div className="w-full text-left pl-[60px] py-[10px]  hover:bg-black text-[#CCCCCC] hover:text-white duration-700">
+    <div className="flex items-center w-full text-left pl-[60px] h-[40px]  hover:bg-black text-[#CCCCCC] hover:text-white duration-700">
       <Link href={onClick}>
         <a onClick={handleClick}>{text}</a>
       </Link>

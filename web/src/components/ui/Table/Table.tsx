@@ -6,7 +6,7 @@ const Table = ({
   display,
   borderBottom,
   height = "h-full",
-  usersList,
+  list,
   handleEdit,
   handleDelete,
 }: any) => {
@@ -16,7 +16,7 @@ const Table = ({
         <div className="flex flex-col gap-[2px] h-full rounded-[5px] border border-[#CCCCCC] p-[3px]">
           <TableHeader />
           <TableDetails
-            usersList={usersList}
+            list={list}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
@@ -37,10 +37,10 @@ const TableHeader = () => {
   );
 };
 
-const TableDetails = ({ usersList, handleEdit, handleDelete }: any) => {
+const TableDetails = ({ list, handleEdit, handleDelete }: any) => {
   return (
     <div className="flex flex-col gap-[2px]">
-      {usersList.map((item: any, index: any) => (
+      {list.map((item: any, index: any) => (
         <Row height="h-[36px]" display="flex gap-[2px]" key={index}>
           <Col
             gap="gap-[2px]"
@@ -56,7 +56,9 @@ const TableDetails = ({ usersList, handleEdit, handleDelete }: any) => {
             } flex-grow px-[15px]`}
             display="flex justify-between items-center"
           >
-            <span>{`${item.name} ${item.paternallastname}`}</span>
+            <span>{`${item.name} ${
+              item.paternallastname ? item.paternallastname : ""
+            }`}</span>
             <EditButtons
               handleEdit={() => handleEdit(item)}
               handleDelete={() => handleDelete(item)}
