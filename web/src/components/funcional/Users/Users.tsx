@@ -102,7 +102,7 @@ const Users = () => {
       <Table
         display="flex-grow"
         borderBottom="yes"
-        usersList={list}
+        list={list}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
