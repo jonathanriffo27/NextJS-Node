@@ -5,6 +5,7 @@ import { setUser } from "../../../redux/slices/userSlice";
 import { UserPic } from "../../funcional/User";
 import Button from "../Button";
 import InputText from "../InputText";
+import SelectOption from "../SelectOption";
 
 const UserForm = ({
   onClick,
@@ -96,34 +97,16 @@ const UserForm = ({
             value={user.adress}
           />
           <div className="flex gap-[5px] text-[#555555] h-[50px]">
-            <select
-              name=""
-              id="region"
-              className="w-[217px] border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white"
+            <SelectOption
               onChange={onRegionChange}
-              value={user.region}
-            >
-              <option value="">Region</option>
-              {listRegions.map((item: any) => (
-                <option value={item.id} key={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            <select
-              name=""
-              id="district"
-              className="w-[217px] bg-white border border-[#CCCCCC] rounded-[5px] p-[15px] "
+              value={user}
+              list={listRegions}
+            />
+            <SelectOption
               onChange={onDistrictChange}
-              value={user.district}
-            >
-              <option value="">Comuna</option>
-              {district.map((item: any) => (
-                <option value={item.id} key={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
+              value={user}
+              list={district}
+            />
           </div>
         </div>
       </div>
