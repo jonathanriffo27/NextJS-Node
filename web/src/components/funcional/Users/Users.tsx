@@ -84,6 +84,11 @@ const Users = () => {
     dispatch(setDistrict(comunas));
   };
 
+  const handleModalCloseButton = () => {
+    dispatch(resetUser());
+    setModal(!modal);
+  };
+
   useEffect(() => {
     dispatch(listUsers());
     dispatch(listRegion());
@@ -112,7 +117,7 @@ const Users = () => {
         text={`${list.length} registros`}
       />
       {modal && (
-        <Modal title="Nuevo Usuario" onClick={() => setModal(!modal)}>
+        <Modal title="Nuevo Usuario" onClick={handleModalCloseButton}>
           <UserForm
             textBoton="Registrar"
             onClick={handleClickModal}

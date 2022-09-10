@@ -23,13 +23,13 @@ const Grade = () => {
   const [modalOn, setModalOn] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
-  const handleClick = () => {
+  const handleClickModal = () => {
     {
       user.id === ""
         ? dispatch(createGrade(user.grade))
         : dispatch(updateGrade(user.id, user.grade));
     }
-    dispatch(setUser({ ...user, grade: "" }));
+    dispatch(resetUser());
     setModalOn(!modalOn);
   };
 
@@ -43,13 +43,18 @@ const Grade = () => {
     dispatch(setUser({ ...user, grade: e.target.value }));
 
   const handleEdit = (row: any) => {
-    dispatch(setUser({ ...user, grade: row.name, id: row.id }));
+    dispatch(setUser({ grade: row.name, id: row.id }));
     setModalOn(!modalOn);
   };
 
   const handleDelete = (row: any) => {
     dispatch(setUser({ ...user, id: row.id }));
     setModalDelete(!modalDelete);
+  };
+
+  const handleModalCloseButton = () => {
+    dispatch(resetUser());
+    setModalOn(!modalOn);
   };
 
   useEffect(() => {
@@ -74,18 +79,18 @@ const Grade = () => {
         pageButtons="yes"
       />
       {modalOn && (
-        <Modal title="Nuevo Cargo" onClick={() => setModalOn(!modalOn)}>
+        <Modal title="Nuevo Cargo" onClick={handleModalCloseButton}>
           <InputText
             width="357px"
             label="Cargo"
             onChange={onGradeChange}
             value={user.grade}
           />
-          <Button width="250px" text="Registrar" onClick={handleClick} />
+          <Button width="250px" text="Registrar" onClick={handleClickModal} />
         </Modal>
       )}
       {modalDelete && (
-        <Modal title="Eliminar Cargo" onClick={() => setModalOn(!modalOn)}>
+        <Modal title="Eliminar Cargo" onClick={handleModalCloseButton}>
           <span className="text-[16px]">{`¿Desea eliminar el cargo ${user.grade}?`}</span>
           <Button width="250px" text="Eliminar" onClick={handleModalDelete} />
         </Modal>

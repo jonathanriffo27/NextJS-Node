@@ -43,7 +43,6 @@ const createController = async (req: any, res: any) => {
 const updateController = async (req: any, res: any) => {
   const { id } = req.params;
   const { grade } = req.body;
-  console.log(id, grade);
 
   try {
     const response = await updateModel(id, grade);

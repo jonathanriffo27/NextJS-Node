@@ -11,18 +11,18 @@ const InputText = ({
   value,
   onKeyUp,
 }: any) => {
-  const handleKeyUp = (e: any) => {
-    if (e.key === "Enter") {
-      onKeyUp();
-    }
-  };
+  // const handleKeyUp = (e: any) => {
+  //   if (e.key === "Enter") {
+  //     onKeyUp();
+  //   }
+  // };
   return (
     <div
       style={{ width }}
       className={`flex justify-center items-center relative`}
     >
       <input
-        onKeyUp={handleKeyUp}
+        // onKeyUp={handleKeyUp}
         id={label}
         type={type}
         name={label}
