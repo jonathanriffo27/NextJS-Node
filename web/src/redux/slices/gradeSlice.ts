@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import apiKey from "../../utils/config";
+import store from "../store";
 
 const initialState = {
   listGrades: [],
@@ -29,13 +30,19 @@ export const { setGrade, setGradeList, resetGrade } = regionSlice.actions;
 export default regionSlice.reducer;
 
 export const createGrade = (grade: any) => (dispatch: any) => {
+  const { uiSlice } = store.getState();
   axios
     .post(
-      "http://localhost:3004/api/grade/create",
+      "http://localhost:3001/api/grade/create",
       {
         grade,
       },
-      { headers: { api_key: apiKey } }
+      {
+        headers: {
+          api_key: apiKey,
+          token: uiSlice.token,
+        },
+      }
     )
     .then((response) => {
       dispatch(setGrade(response.data.data));
@@ -44,10 +51,12 @@ export const createGrade = (grade: any) => (dispatch: any) => {
 };
 
 export const listGrade = () => (dispatch: any) => {
+  const { uiSlice } = store.getState();
   axios
-    .get("http://localhost:3004/api/grade/getAll", {
+    .get("http://localhost:3001/api/grade/getAll", {
       headers: {
         api_key: apiKey,
+        token: uiSlice.token,
       },
     })
     .then((response) => {
@@ -59,13 +68,19 @@ export const listGrade = () => (dispatch: any) => {
 };
 
 export const updateGrade = (id: any, grade: any) => (dispatch: any) => {
+  const { uiSlice } = store.getState();
   axios
     .put(
-      `http://localhost:3004/api/grade/update/${id}`,
+      `http://localhost:3001/api/grade/update/${id}`,
       {
         grade,
       },
-      { headers: { api_key: apiKey } }
+      {
+        headers: {
+          api_key: apiKey,
+          token: uiSlice.token,
+        },
+      }
     )
     .then((response) => {
       dispatch(setGrade(response.data.data));
@@ -74,9 +89,13 @@ export const updateGrade = (id: any, grade: any) => (dispatch: any) => {
 };
 
 export const deleteGrade = (id: any) => (dispatch: any) => {
+  const { uiSlice } = store.getState();
   axios
-    .delete(`http://localhost:3004/api/grade/delete/${id}`, {
-      headers: { api_key: apiKey },
+    .delete(`http://localhost:3001/api/grade/delete/${id}`, {
+      headers: {
+        api_key: apiKey,
+        token: uiSlice.token,
+      },
     })
     .then((response) => {
       dispatch(setGrade(response.data.data));

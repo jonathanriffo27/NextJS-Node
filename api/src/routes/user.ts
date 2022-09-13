@@ -12,7 +12,6 @@ import {
   getByEmailController,
   assignNewPasswordController,
 } from "../controllers/user";
-
 import auth from "../middleware/auth";
 import tokenDecrypt from "../middleware/jwt";
 

@@ -12,6 +12,7 @@ const initialState = {
     urlPhoto: "",
     grade: "",
   },
+  token: "",
 };
 
 export const uiSlice = createSlice({
@@ -24,9 +25,12 @@ export const uiSlice = createSlice({
     resetUserUi: (state: any) => {
       state.user = initialState.user;
     },
+    setToken: (state: any, action: PayloadAction<any>) => {
+      state.token = action.payload;
+    },
   },
 });
 
-export const { setUserUi, resetUserUi } = uiSlice.actions;
+export const { setUserUi, resetUserUi, setToken } = uiSlice.actions;
 
 export default uiSlice.reducer;

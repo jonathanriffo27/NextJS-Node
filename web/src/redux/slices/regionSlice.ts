@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import apiKey from "../../utils/config";
+import store from "../store";
 
 const initialState = {
   listRegions: [],
@@ -29,15 +30,16 @@ export const { setRegion, resetRegion, setRegionList } = regionSlice.actions;
 export default regionSlice.reducer;
 
 export const listRegion = () => (dispatch: any) => {
+  const { uiSlice } = store.getState();
   axios
-    .get("http://localhost:3003/api/adress/region/getAll", {
+    .get("http://localhost:3001/api/region/getAll", {
       headers: {
         api_key: apiKey,
+        token: uiSlice.token,
       },
     })
     .then((response) => {
       dispatch(setRegionList(response.data.data));
-      // console.log(response);
     })
     .catch((error) => {
       console.log(error);

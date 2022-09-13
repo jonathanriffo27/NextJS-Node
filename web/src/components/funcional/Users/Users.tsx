@@ -9,7 +9,13 @@ import {
   updateUser,
 } from "../../../redux/slices/userSlice";
 import { listRegion } from "../../../redux/slices/regionSlice";
-import { listDistrict, setDistrict } from "../../../redux/slices/districtSlice";
+import {
+  listDistrict,
+  setDistrict,
+  getDistrictByRegionId,
+  setDistrictListByRegionId,
+} from "../../../redux/slices/districtSlice";
+import { listGrade } from "../../../redux/slices/gradeSlice";
 
 import Table from "../../ui/Table";
 import Modal from "../../ui/Modal";
@@ -22,9 +28,11 @@ import Button from "../../ui/Button";
 const Users = () => {
   const { list, user } = useAppSelector((state) => state.userSlice);
   const { listRegions } = useAppSelector((state) => state.regionSlice);
-  const { districtList, district } = useAppSelector(
+  const { districtList, districtListByRegionId } = useAppSelector(
     (state) => state.districtSlice
   );
+  const { listGrades } = useAppSelector((state) => state.gradeSlice);
+
   const dispatch = useAppDispatch();
   const [modal, setModal] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
@@ -80,8 +88,7 @@ const Users = () => {
   };
 
   const handleDistrict = (id: string) => {
-    const comunas = districtList.filter((item: any) => item.regionid === id);
-    dispatch(setDistrict(comunas));
+    dispatch(getDistrictByRegionId(id));
   };
 
   const handleModalCloseButton = () => {
@@ -93,6 +100,7 @@ const Users = () => {
     dispatch(listUsers());
     dispatch(listRegion());
     dispatch(listDistrict());
+    dispatch(listGrade());
   }, []);
 
   return (
@@ -123,7 +131,8 @@ const Users = () => {
             onClick={handleClickModal}
             listRegions={listRegions}
             handleDistrict={handleDistrict}
-            district={district}
+            district={districtListByRegionId}
+            listGrades={listGrades}
           />
         </Modal>
       )}

@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { setUserUi } from "./uiSlice";
 
+import store from "../store";
+import { setUserUi, setToken } from "./uiSlice";
 import apiKey from "../../utils/config";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
     urlPhoto: "",
     grade: "",
   },
+  token: "",
   error: "",
   genericPassword: { state: false, userId: "", success: true },
 };
@@ -52,12 +54,12 @@ export const { setUserList, setUser, resetUser, setError, setGenericPassword } =
 export default userSlice.reducer;
 
 export const listUsers = () => (dispatch: any) => {
+  const { uiSlice } = store.getState();
   axios
     .get("http://localhost:3001/api/user/list", {
       headers: {
         api_key: apiKey,
-        token:
-          "eyJhbGciOiJIUzI1NiJ9.SG9sYQ.3SYpk-AXAjCf8U7EW3YduEANlgigWWheaWj_dutPlqQ",
+        token: uiSlice.token,
       },
     })
     .then((response) => {
@@ -107,6 +109,7 @@ export const validateUser =
             grade,
           })
         );
+        dispatch(setToken(response.data.data.token));
       })
       .catch(() => dispatch(setError("Usuario o contraseña incorrecta")));
   };

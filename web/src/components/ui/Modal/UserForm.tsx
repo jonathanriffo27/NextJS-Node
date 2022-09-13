@@ -13,6 +13,7 @@ const UserForm = ({
   listRegions,
   handleDistrict,
   district,
+  listGrades,
 }: any) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.userSlice);
@@ -84,11 +85,12 @@ const UserForm = ({
               value={user.phone}
             />
           </div>
-          <InputText
-            width="439px"
-            label="Cargo"
+          <SelectOption
             onChange={onGradeChange}
             value={user.grade}
+            list={listGrades}
+            width="w-full"
+            title="Cargo"
           />
           <InputText
             width="439px"
@@ -99,13 +101,15 @@ const UserForm = ({
           <div className="flex gap-[5px] text-[#555555] h-[50px]">
             <SelectOption
               onChange={onRegionChange}
-              value={user}
+              value={user.region}
               list={listRegions}
+              title="Region"
             />
             <SelectOption
               onChange={onDistrictChange}
-              value={user}
+              value={user.district}
               list={district}
+              title="Comuna"
             />
           </div>
         </div>

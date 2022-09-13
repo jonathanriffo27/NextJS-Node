@@ -2,15 +2,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 import Icon from "../Icon";
 
-const InputText = ({
-  label,
-  width,
-  type,
-  icon,
-  onChange,
-  value,
-  onKeyUp,
-}: any) => {
+const InputText = ({ label, width, type, icon, onChange, value }: any) => {
   // const handleKeyUp = (e: any) => {
   //   if (e.key === "Enter") {
   //     onKeyUp();
@@ -19,7 +11,7 @@ const InputText = ({
   return (
     <div
       style={{ width }}
-      className={`flex justify-center items-center relative`}
+      className={`flex justify-center items-center relative text-[#555555]`}
     >
       <input
         // onKeyUp={handleKeyUp}

@@ -1,13 +1,19 @@
-const SelectOption = ({ onChange, value, list }: any) => {
+const SelectOption = ({
+  onChange,
+  value,
+  list,
+  width = "w-[217px]",
+  title,
+}: any) => {
   return (
     <select
       name=""
       id="region"
-      className="w-[217px] border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white"
+      className={`${width} border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white text-[#555555]`}
       onChange={onChange}
-      value={value.region}
+      value={value}
     >
-      <option value="">Region</option>
+      <option value="">{value === "" || value === null ? title : value}</option>
       {list.map((item: any) => (
         <option value={item.id} key={item.id}>
           {item.name}
