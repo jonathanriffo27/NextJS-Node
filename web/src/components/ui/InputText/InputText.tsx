@@ -30,7 +30,7 @@ const InputText = ({ label, width, type, icon, onChange, value }: any) => {
         className="left-[15px] text-[12px] top-[4px] text-[#555555]
             peer-placeholder-shown:text-[16px]
             peer-placeholder-shown:top-[13px] 
-            peer-placeholder-shown:text-[#7c7b7b] 
+            peer-placeholder-shown:text-[#555555] 
             peer-focus:text-[12px] 
             peer-focus:top-[4px]
             duration-300 absolute"

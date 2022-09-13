@@ -9,15 +9,19 @@ const getAllModel = async () => {
           U.paternalLastName,
           U.maternalLastName,
           U.adress,
+          U.region_id,
           R.name AS region_name,
+          U.district_id,
           D.name AS district_name,
           U.email,
           U.phone,
           U.urlPhoto,
-          U.grade
+          U.grade_id,
+          G.name AS grade_name
   FROM public.user U
   LEFT OUTER JOIN public.region R ON U.region_id = R.id 
   LEFT OUTER JOIN public.district D ON U.district_id = D.id 
+  LEFT OUTER JOIN public.grade G ON U.grade_id = G.id 
   WHERE isActive = true`);
   return result.rows;
 };
@@ -50,12 +54,12 @@ const createModel = async (
   paternalLastName: string,
   maternalLastName: string,
   adress: string,
-  region: string,
-  district: string,
+  region_id: string,
+  district_id: string,
   email: string,
   phone: string,
   urlPhoto: string,
-  grade: string
+  grade_id: string
 ) => {
   const result = await pool.query(
     `
@@ -65,12 +69,12 @@ const createModel = async (
             paternalLastName, 
             maternalLastName, 
             adress,
-            region,
-            district,
+            region_id,
+            district_id,
             email, 
             phone,
             urlPhoto,
-            grade
+            grade_id
         ) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
         RETURNING *`,
@@ -80,12 +84,12 @@ const createModel = async (
       paternalLastName,
       maternalLastName,
       adress,
-      region,
-      district,
+      region_id,
+      district_id,
       email,
       phone,
       urlPhoto,
-      grade,
+      grade_id,
     ]
   );
   return result.rows[0];
@@ -118,7 +122,7 @@ const updateModel = async (
             email = $9,
             phone = $10,
             urlPhoto = $11,
-            grade = $12 
+            grade_id = $12 
         WHERE id = $1 
         RETURNING *`,
     [

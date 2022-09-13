@@ -9,7 +9,7 @@ const SelectOption = ({
     <select
       name=""
       id="region"
-      className={`${width} border border-[#CCCCCC] rounded-[5px] p-[15px] bg-white text-[#555555]`}
+      className={`${width} border border-[#CCCCCC] outline-none focus:border-2 focus:border-[#99a0b3] focus:bg-[#fdffdf] required:border-red-500 rounded-[5px] p-[15px] bg-white text-[#555555]`}
       onChange={onChange}
       value={value}
     >
