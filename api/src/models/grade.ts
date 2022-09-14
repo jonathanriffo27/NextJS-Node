@@ -5,7 +5,9 @@ const getAllModel = async () => {
     const result = await pool.query(`
         SELECT  id,
                 name
-        FROM grade`);
+        FROM grade
+        WHERE isActive = true
+        ORDER BY name`);
     return result.rows;
   } catch (e) {
     throw new Error((e as Error).message);
@@ -49,7 +51,8 @@ const deleteModel = async (id: string) => {
   try {
     const result = await pool.query(
       `
-      DELETE FROM grade
+      UPDATE grade
+      SET isActive = false
       WHERE id = $1
       RETURNING *`,
       [id]

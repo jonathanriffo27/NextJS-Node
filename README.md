@@ -47,8 +47,8 @@ email VARCHAR(50) NOT NULL,
 phone VARCHAR(50) NOT NULL,
 hash VARCHAR(100),
 isActive BOOLEAN default true,
-urlPhoto VARCHAR(50),
-adress VARCHAR(50),
+urlPhoto VARCHAR(300),
+address VARCHAR(50),
 region_id uuid,
 district_id uuid,
 grade_id uuid,
@@ -62,13 +62,14 @@ name VARCHAR(50) NOT NULL
 
 CREATE TABLE district (
 id uuid NOT NULL default gen_random_uuid (),
-regionId uuid,
+region_id uuid,
 name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE grade (
 id uuid NOT NULL default gen_random_uuid (),
-name VARCHAR(50) NOT NULL
+name VARCHAR(50) NOT NULL,
+isActive BOOLEAN default true
 );
 ```
 
@@ -90,9 +91,7 @@ Para registrar los nuevos usuarios debes hacer un get al siguiente endpoint con 
     "maternalLastName": "",
     "email": "",
     "phone": "",
-    "hash": 0,
     "urlPhoto": "",
-    "grade": ""
 }
 ```
 

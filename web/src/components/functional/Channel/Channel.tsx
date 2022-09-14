@@ -8,7 +8,7 @@ import CanalesSection from "./CanalesSection";
 import InputText from "../../ui/InputText";
 import Button from "../../ui/Button";
 
-const Canales = () => {
+const Channel = () => {
   const [modalOn, setModalOn] = useState(false);
   const handleClick = () => setModalOn(!modalOn);
 
@@ -33,4 +33,4 @@ const Canales = () => {
   );
 };
 
-export default Canales;
+export default Channel;

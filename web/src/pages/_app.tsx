@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 
 import store from "../redux/store";
 import { Provider } from "react-redux";
-import Switch from "../components/funcional/Switch";
+import Switch from "../components/functional/Switch";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -4,9 +4,10 @@ const getAllModel = async () => {
   try {
     const result = await pool.query(`
         SELECT  id,
-                regionid,
+                region_id,
                 name
-        FROM district`);
+        FROM district
+        ORDER BY name`);
     return result.rows;
   } catch (e) {
     throw new Error((e as Error).message);
@@ -20,7 +21,8 @@ const getByRegionIdModel = async (id: string) => {
         SELECT  id,
                 name
         FROM district
-        WHERE regionid = $1`,
+        WHERE region_id = $1
+        ORDER BY name`,
       [id]
     );
     return result.rows;

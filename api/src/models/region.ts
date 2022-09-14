@@ -6,7 +6,8 @@ const getAllModel = async () => {
         SELECT  id,
                 number,
                 name
-        FROM region`);
+        FROM region
+        ORDER BY name`);
     return result.rows;
   } catch (e) {
     throw new Error((e as Error).message);

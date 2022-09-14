@@ -59,13 +59,16 @@ const Users = () => {
         name: row.name,
         paternalLastName: row.paternallastname,
         maternalLastName: row.maternallastname,
-        adress: row.adress,
+        address: row.address,
         region: row.region_name,
+        region_id: row.region_id,
         district: row.district_name,
+        district_id: row.district_id,
         email: row.email,
         phone: row.phone,
         urlPhoto: "",
         grade: row.grade_name,
+        grade_id: row.grade_id,
       })
     );
     setModal(!modal);

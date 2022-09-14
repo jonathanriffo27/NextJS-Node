@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { setUser } from "../../../redux/slices/userSlice";
 
-import { UserPic } from "../../funcional/User";
+import { UserPic } from "../../functional/User";
 import Button from "../Button";
 import InputText from "../InputText";
 import SelectOption from "../SelectOption";
@@ -31,15 +31,15 @@ const UserForm = ({
   const onPhoneChange = (e: any) =>
     dispatch(setUser({ ...user, phone: e.target.value }));
   const onGradeChange = (e: any) =>
-    dispatch(setUser({ ...user, grade: e.target.value }));
-  const onAdressChange = (e: any) =>
-    dispatch(setUser({ ...user, adress: e.target.value }));
+    dispatch(setUser({ ...user, grade_id: e.target.value, grade: "" }));
+  const onAddressChange = (e: any) =>
+    dispatch(setUser({ ...user, address: e.target.value }));
   const onRegionChange = (e: any) => {
-    dispatch(setUser({ ...user, region: e.target.value }));
+    dispatch(setUser({ ...user, region_id: e.target.value }));
     handleDistrict(e.target.value);
   };
   const onDistrictChange = (e: any) => {
-    dispatch(setUser({ ...user, district: e.target.value }));
+    dispatch(setUser({ ...user, district_id: e.target.value }));
   };
 
   return (
@@ -88,6 +88,7 @@ const UserForm = ({
           <SelectOption
             onChange={onGradeChange}
             value={user.grade}
+            value_id={user.grade_id}
             list={listGrades}
             width="w-full"
             title="Cargo"
@@ -95,8 +96,8 @@ const UserForm = ({
           <InputText
             width="439px"
             label="Direccion"
-            onChange={onAdressChange}
-            value={user.adress}
+            onChange={onAddressChange}
+            value={user.address}
           />
           <div className="flex gap-[5px] text-[#555555] h-[50px]">
             <SelectOption

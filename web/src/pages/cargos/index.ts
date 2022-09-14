@@ -1,3 +1,3 @@
-import Grade from "../../components/funcional/Grade/Grade";
+import Grade from "../../components/functional/Grade/Grade";
 
 export default Grade;

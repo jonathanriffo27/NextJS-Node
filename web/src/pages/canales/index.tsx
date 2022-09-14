@@ -1,3 +1,9 @@
-import Canales from "../../components/funcional/Canales"
+import Channel from "../../components/functional/Channel/Channel";
 
-export default Canales;
+import type { NextPage } from "next";
+
+const ChannelPage: NextPage = () => {
+  return <Channel />;
+};
+
+export default ChannelPage;

@@ -55,13 +55,13 @@ const createController = async (req: any, res: any) => {
     name,
     paternalLastName,
     maternalLastName,
-    adress,
-    region,
-    district,
+    address,
+    region_id,
+    district_id,
     email,
     phone,
     urlPhoto,
-    grade,
+    grade_id,
   } = req.body;
   try {
     const response = await createModel(
@@ -69,13 +69,13 @@ const createController = async (req: any, res: any) => {
       name,
       paternalLastName,
       maternalLastName,
-      adress,
-      region,
-      district,
+      address,
+      region_id,
+      district_id,
       email,
       phone,
       urlPhoto,
-      grade
+      grade_id
     );
     res.status(200).json({
       success: true,
@@ -98,13 +98,13 @@ const updateController = async (req: any, res: any) => {
     name,
     paternalLastName,
     maternalLastName,
-    adress,
-    region,
+    address_id,
+    region_id,
     district,
     email,
     phone,
     urlPhoto,
-    grade,
+    grade_id,
   } = req.body;
   try {
     const response = await updateModel(
@@ -113,13 +113,13 @@ const updateController = async (req: any, res: any) => {
       name,
       paternalLastName,
       maternalLastName,
-      adress,
-      region,
+      address_id,
+      region_id,
       district,
       email,
       phone,
       urlPhoto,
-      grade
+      grade_id
     );
 
     res.status(200).json({
@@ -186,7 +186,7 @@ const assaignPasswordController = async (req: any, res: any) => {
     const response = await assignPasswordModel(id, password);
     res.status(200).json({
       success: true,
-      data: response,
+      data: "Password updated",
       error: null,
     });
   } catch (error) {

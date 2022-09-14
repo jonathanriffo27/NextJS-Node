@@ -2,47 +2,59 @@ import pool from "../utils/database";
 import bcrypt from "bcrypt";
 
 const getAllModel = async () => {
-  const result = await pool.query(`
-  SELECT  U.id,
-          U.rut,
-          U.name,
-          U.paternalLastName,
-          U.maternalLastName,
-          U.adress,
-          U.region_id,
-          R.name AS region_name,
-          U.district_id,
-          D.name AS district_name,
-          U.email,
-          U.phone,
-          U.urlPhoto,
-          U.grade_id,
-          G.name AS grade_name
-  FROM public.user U
-  LEFT OUTER JOIN public.region R ON U.region_id = R.id 
-  LEFT OUTER JOIN public.district D ON U.district_id = D.id 
-  LEFT OUTER JOIN public.grade G ON U.grade_id = G.id 
-  WHERE isActive = true`);
-  return result.rows;
+  try {
+    const result = await pool.query(`
+    SELECT  USR.id,
+            USR.rut,
+            USR.name,
+            USR.paternalLastName,
+            USR.maternalLastName,
+            USR.address,
+            USR.region_id,
+            REG.name AS region_name,
+            USR.district_id,
+            DIS.name AS district_name,
+            USR.email,
+            USR.phone,
+            USR.urlPhoto,
+            USR.grade_id,
+            GRA.name AS grade_name
+    FROM public.user USR
+    LEFT OUTER JOIN public.region REG ON USR.region_id = REG.id 
+    LEFT OUTER JOIN public.district DIS ON USR.district_id = DIS.id 
+    LEFT OUTER JOIN public.grade GRA ON USR.grade_id = GRA.id 
+    WHERE USR.isActive = true
+    ORDER BY name, paternallastname, maternallastname`);
+    return result.rows;
+  } catch (error) {
+    throw new Error();
+  }
 };
 
 const getByIdModel = async (id: string) => {
   const result = await pool.query(
     `
-        SELECT  id,
-                rut, 
-                name, 
-                paternalLastName, 
-                maternalLastName, 
-                adress,
-                region,
-                district,
-                email, 
-                phone,
-                urlPhoto,
-                grade
-        FROM public.user 
-        WHERE id = $1`,
+    SELECT  USR.id,
+            USR.rut,
+            USR.name,
+            USR.paternalLastName,
+            USR.maternalLastName,
+            USR.address,
+            USR.region_id,
+            REG.name AS region_name,
+            USR.district_id,
+            DIS.name AS district_name,
+            USR.email,
+            USR.phone,
+            USR.urlPhoto,
+            USR.grade_id,
+            GRA.name AS grade_name
+        FROM public.user USR
+        LEFT OUTER JOIN public.region REG ON USR.region_id = REG.id 
+        LEFT OUTER JOIN public.district DIS ON USR.district_id = DIS.id 
+        LEFT OUTER JOIN public.grade GRA ON USR.grade_id = GRA.id 
+        WHERE id = $1
+        ORDER BY name, paternallastname, maternallastname`,
     [id]
   );
   return result.rows[0];
@@ -53,7 +65,7 @@ const createModel = async (
   name: string,
   paternalLastName: string,
   maternalLastName: string,
-  adress: string,
+  address: string,
   region_id: string,
   district_id: string,
   email: string,
@@ -68,7 +80,7 @@ const createModel = async (
             name, 
             paternalLastName, 
             maternalLastName, 
-            adress,
+            address,
             region_id,
             district_id,
             email, 
@@ -83,7 +95,7 @@ const createModel = async (
       name,
       paternalLastName,
       maternalLastName,
-      adress,
+      address,
       region_id,
       district_id,
       email,
@@ -101,13 +113,13 @@ const updateModel = async (
   name: string,
   paternalLastName: string,
   maternalLastName: string,
-  adress: string,
-  region: string,
-  district: string,
+  address: string,
+  region_id: string,
+  district_id: string,
   email: string,
   phone: string,
   urlPhoto: string,
-  grade: string
+  grade_id: string
 ) => {
   const result = await pool.query(
     `
@@ -116,7 +128,7 @@ const updateModel = async (
             name = $3,
             paternalLastName = $4,
             maternalLastName = $5,
-            adress = $6,
+            address = $6,
             region_id = $7,
             district_id = $8,
             email = $9,
@@ -131,13 +143,13 @@ const updateModel = async (
       name,
       paternalLastName,
       maternalLastName,
-      adress,
-      region,
-      district,
+      address,
+      region_id,
+      district_id,
       email,
       phone,
       urlPhoto,
-      grade,
+      grade_id,
     ]
   );
   return result.rows[0];
@@ -147,8 +159,9 @@ const deleteModel = async (id: string) => {
   const result = await pool.query(
     `
     UPDATE public.user 
-    SET  isACtive = false  
-    WHERE id = $1`,
+    SET  isActive = false  
+    WHERE id = $1
+    RETURNING *`,
     [id]
   );
   return result;
@@ -158,27 +171,39 @@ const validateModel = async (email: string, password: string) => {
   try {
     const result = await pool.query(
       `
-          SELECT  rut,
-                  name, 
-                  paternallastname, 
-                  maternallastname, 
-                  email, 
-                  phone,
-                  urlphoto,
-                  grade,
-                  hash
-          FROM public.user 
-          WHERE email = $1`,
+      SELECT  USR.id,
+              USR.rut,
+              USR.name,
+              USR.paternalLastName,
+              USR.maternalLastName,
+              USR.address,
+              REG.name AS region_name,
+              DIS.name AS district_name,
+              USR.email,
+              USR.phone,
+              USR.urlPhoto,
+              GRA.name AS grade_name,
+              USR.hash
+      FROM public.user USR
+      LEFT OUTER JOIN public.region REG ON USR.region_id = REG.id 
+      LEFT OUTER JOIN public.district DIS ON USR.district_id = DIS.id 
+      LEFT OUTER JOIN public.grade GRA ON USR.grade_id = GRA.id 
+      WHERE email = $1
+      ORDER BY name, paternallastname, maternallastname `,
       [email]
     );
+
     const {
       rut,
       name,
       paternallastname,
       maternallastname,
+      address,
+      region_name,
+      district_name,
       phone,
       urlphoto,
-      grade,
+      grade_name,
       hash,
     } = result.rows[0];
     const isValid = await bcrypt.compare(password, hash);
@@ -187,9 +212,12 @@ const validateModel = async (email: string, password: string) => {
       name,
       paternallastname,
       maternallastname,
+      address,
+      region_name,
+      district_name,
       phone,
       urlphoto,
-      grade,
+      grade_name,
       isValid,
     };
   } catch (error) {
@@ -213,17 +241,27 @@ const assignPasswordModel = async (id: string, password: string) => {
 const getByEmailModel = async (email: string) => {
   const result = await pool.query(
     `
-        SELECT  id,
-                rut,
-                name, 
-                paternalLastName, 
-                maternalLastName, 
-                email, 
-                phone,
-                urlphoto,
-                grade
-        FROM public.user 
-        WHERE email = $1`,
+    SELECT  USR.id,
+            USR.rut,
+            USR.name,
+            USR.paternalLastName,
+            USR.maternalLastName,
+            USR.address,
+            USR.region_id,
+            REG.name AS region_name,
+            USR.district_id,
+            DIS.name AS district_name,
+            USR.email,
+            USR.phone,
+            USR.urlPhoto,
+            USR.grade_id,
+            GRA.name AS grade_name
+    FROM public.user USR
+    LEFT OUTER JOIN public.region REG ON USR.region_id = REG.id 
+    LEFT OUTER JOIN public.district DIS ON USR.district_id = DIS.id 
+    LEFT OUTER JOIN public.grade GRA ON USR.grade_id = GRA.id 
+    WHERE email = $1
+    ORDER BY name, paternallastname, maternallastname`,
     [email]
   );
   return result.rows[0];

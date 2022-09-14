@@ -1,9 +1,7 @@
-import ResetPasswordEmail from "../../components/funcional/Login/resetPasswordEmail"
+import ResetPasswordEmail from "../../components/functional/Login/ResetPasswordEmail";
 
 const email = () => {
-  return (
-    <ResetPasswordEmail />
-  )
-}
+  return <ResetPasswordEmail />;
+};
 
-export default email
+export default email;
