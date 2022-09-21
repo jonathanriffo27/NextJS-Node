@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-import Modal from "../../ui/Modal";
-import Title from "../../ui/Title";
-import Search from "../../ui/Search";
-import Buttons from "../../ui/Buttons";
+import Modal from "../../../ui/Modal";
+import Title from "../../../ui/Title";
+import Search from "../../../ui/Search";
+import Buttons from "../../../ui/Buttons";
 import CanalesSection from "./CanalesSection";
-import InputText from "../../ui/InputText";
-import Button from "../../ui/Button";
+import InputText from "../../../ui/InputText";
+import Button from "../../../ui/Button";
 
 const Channel = () => {
   const [modalOn, setModalOn] = useState(false);

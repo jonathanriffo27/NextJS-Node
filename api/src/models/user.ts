@@ -221,7 +221,7 @@ const validateModel = async (email: string, password: string) => {
       isValid,
     };
   } catch (error) {
-    throw new Error();
+    throw new Error((error as Error).message);
   }
 };
 

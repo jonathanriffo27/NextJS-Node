@@ -1,5 +1,5 @@
-import Row from "../../layout/Row";
-import Canal from "../../ui/Canal";
+import Row from "../../../layout/Row";
+import Canal from "../../../ui/Canal";
 
 const CanalesSection = () => {
   return (

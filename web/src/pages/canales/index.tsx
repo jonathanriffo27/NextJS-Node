@@ -1,6 +1,6 @@
-import Channel from "../../components/functional/Channel/Channel";
-
 import type { NextPage } from "next";
+
+import Channel from "../../components/functional/Masters/Channel/Channel";
 
 const ChannelPage: NextPage = () => {
   return <Channel />;

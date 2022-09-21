@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { setUser, resetUser } from "../../../redux/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { setUser, resetUser } from "../../../../redux/slices/userSlice";
 
 import {
   createGrade,
   listGrade,
   updateGrade,
   deleteGrade,
-} from "../../../redux/slices/gradeSlice";
-import Title from "../../ui/Title";
-import Search from "../../ui/Search";
-import Buttons from "../../ui/Buttons";
-import Button from "../../ui/Button";
-import Modal from "../../ui/Modal";
-import InputText from "../../ui/InputText";
-import Table from "../../ui/Table";
+} from "../../../../redux/slices/gradeSlice";
+import Title from "../../../ui/Title";
+import Search from "../../../ui/Search";
+import Buttons from "../../../ui/Buttons";
+import Button from "../../../ui/Button";
+import Modal from "../../../ui/Modal";
+import InputText from "../../../ui/InputText";
+import Table from "../../../ui/Table";
 
 const Grade = () => {
   const dispatch = useAppDispatch();

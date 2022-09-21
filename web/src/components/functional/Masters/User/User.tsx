@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
 import {
   listUsers,
   resetUser,
@@ -7,23 +7,23 @@ import {
   deleteUser,
   createUser,
   updateUser,
-} from "../../../redux/slices/userSlice";
-import { listRegion } from "../../../redux/slices/regionSlice";
+} from "../../../../redux/slices/userSlice";
+import { listRegion } from "../../../../redux/slices/regionSlice";
 import {
   listDistrict,
   setDistrict,
   getDistrictByRegionId,
   setDistrictListByRegionId,
-} from "../../../redux/slices/districtSlice";
-import { listGrade } from "../../../redux/slices/gradeSlice";
+} from "../../../../redux/slices/districtSlice";
+import { listGrade } from "../../../../redux/slices/gradeSlice";
 
-import Table from "../../ui/Table";
-import Modal from "../../ui/Modal";
-import Title from "../../ui/Title/Title";
-import Search from "../../ui/Search/Search";
-import Buttons from "../../ui/Buttons/Buttons";
-import UserForm from "../../ui/Modal/UserForm";
-import Button from "../../ui/Button";
+import Table from "../../../ui/Table";
+import Modal from "../../../ui/Modal";
+import Title from "../../../ui/Title/Title";
+import Search from "../../../ui/Search/Search";
+import Buttons from "../../../ui/Buttons/Buttons";
+import UserForm from "../../../ui/Modal/UserForm";
+import Button from "../../../ui/Button";
 
 const Users = () => {
   const { list, user } = useAppSelector((state) => state.userSlice);

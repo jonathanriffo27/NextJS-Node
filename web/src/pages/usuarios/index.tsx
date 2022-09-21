@@ -1,3 +1,3 @@
-import Users from "../../components/functional/Users";
+import User from "../../components/functional/Masters/User";
 
-export default Users;
+export default User;

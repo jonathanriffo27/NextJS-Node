@@ -1,5 +1,9 @@
+import type { NextPage } from "next";
+
 import ResetPasswordValidate from "../../components/functional/Login/ResetPasswordValidate";
 
-export default function resetPassword() {
+const EmailPage: NextPage = () => {
   return <ResetPasswordValidate />;
-}
+};
+
+export default EmailPage;

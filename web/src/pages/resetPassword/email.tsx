@@ -1,7 +1,9 @@
+import type { NextPage } from "next";
+
 import ResetPasswordEmail from "../../components/functional/Login/ResetPasswordEmail";
 
-const email = () => {
+const EmailPage: NextPage = () => {
   return <ResetPasswordEmail />;
 };
 
-export default email;
+export default EmailPage;
